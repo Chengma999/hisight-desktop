@@ -1,14 +1,14 @@
-import { app, BrowserWindow} from 'electron';
+import { app, BrowserWindow } from 'electron';
 import is from 'electron-is';
 import { join } from 'path';
 import log from 'electron-log';
 import * as application from './services/application';
 import * as window from './services/window';
 import * as menu from './services/menu';
-import * as print from './services/print'
+import * as print from './services/print';
 import * as config from './configs/config';
-const io =require   ('socket.io-client')
-
+const io = require('socket.io-client');
+const { namespace } = require('../shared/gegevens');
 log.transports.file.level = 'info';
 
 log.info('(main/index) >>>>>>>>>>>>>>>>>>');
@@ -25,13 +25,15 @@ app.on('ready', () => {
   menu.init();
   print.init();
 
- const namespace= "/yakumi-oud-beijerland"
-
-  const socket =io(is.production()?`http://136.144.214.133:5001${namespace}`:`http://127.0.0.1:5001${namespace}`)
+  const socket = io(
+    is.production()
+      ? `http://136.144.214.133:5001${namespace}`
+      : `http://127.0.0.1:5001${namespace}`,
+  );
   socket.on(`${namespace}/print`, (data) => {
     console.log(data.data);
-    if(print.printStatusGet()){
-      print.print(data.data)
+    if (print.printStatusGet()) {
+      print.print(data.data);
     }
   });
 
@@ -67,7 +69,7 @@ app.on('quit', () => {
 global.services = {
   application,
   window,
-  print
+  print,
 };
 global.configs = {
   config,

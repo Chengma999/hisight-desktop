@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 const io = require('socket.io-client');
-const namespace = '/yakumi-oud-beijerland';
+const {namespace}=require('../../../../shared/gegevens')
 const socket = io(
   process.env.NODE_ENV === 'production'
     ? `http://136.144.214.133:5001${namespace}`

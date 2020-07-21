@@ -52,9 +52,9 @@ module.exports = {
     omzetBonWindow.on('closed', () => {
       omzetBonWindow = null;
     });
-    // workerWindow.hide();
-    // workerKitchenWindow.hide();
-    // omzetBonWindow.hide();
+    workerWindow.hide();
+    workerKitchenWindow.hide();
+    omzetBonWindow.hide();
   },
   print: async (order, isLooping) => {
     if (isPrinting && !isLooping) {

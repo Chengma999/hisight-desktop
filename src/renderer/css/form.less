@@ -1,0 +1,166 @@
+
+.checkoutstep{
+  margin-bottom: 20px;
+  color: #121212;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  clear:both;
+}
+@wide:{
+  :global{
+    .ant-col-sm-14 {
+      max-width: 100%;
+      width: 98%;
+      float:none;
+  }
+    .ant-form-item-label {
+      text-align: left;
+      line-height:25px;
+      overflow:initial;
+    }
+    .ant-row{
+      display:block;
+    }
+
+
+}
+};
+
+.fieldAddress{
+    @wide();
+}
+@label:{
+  :global{
+  .ant-col-sm-6 {
+    width:auto;
+  }
+  }
+};
+
+@Narrow:{
+  width: 48%;
+  max-width:50%;
+  :global{
+    .ant-col-sm-14 {
+      width: 100%;
+      float:none;
+    }
+    .ant-form-item-label{
+      text-align: left;
+      line-height:25px;
+      overflow:initial;
+    }
+    .ant-row{
+      display:block;
+    }
+
+
+}
+};
+.fieldPostcode{
+  @wide();
+  @media (min-width: 576px){
+    float:left;
+    @Narrow();
+    margin-right:2%;
+  }
+}
+.fieldCityName{
+  @wide();
+  @media (min-width: 576px){
+    float:left;
+    @Narrow();
+    margin-right:2%;
+  }
+}
+.fieldName{
+  @wide();
+  @media (min-width: 576px){
+    float:left;
+    @Narrow();
+    margin-right:2%;
+  }
+}
+.fieldEmail{
+  @wide();
+  @media (min-width: 576px){
+    float:left;
+    @Narrow();
+  }
+}
+.fieldTelNumber{
+  @wide();
+  @media (min-width: 576px){
+    float:left;
+    @Narrow();
+    @label();
+    margin-right:2%;
+  }
+}
+
+.fieldCompName{
+  @wide();
+  @media (min-width: 576px){
+    float:left;
+    @Narrow();
+    margin-right:2%;
+  }
+}
+
+.fieldDelevertime{
+  @wide();
+  @media (min-width: 576px){
+    float:left;
+    @Narrow();
+    @label();
+    margin-right:2%;
+  }
+}
+
+.fieldNotes{
+  @wide();
+  @media (min-width: 576px){
+    float:left;
+    @Narrow();
+    @label();
+  }
+}
+.fieldBankIssuers{
+  @wide();
+  @media (min-width: 576px){
+
+    @wide();
+    clear:both;
+  }
+}
+.fieldFormButton{
+  :global{
+    button {
+      width:98%;
+      height:50px;
+      text-transform: uppercase;
+    }
+    @media (min-width: 576px){
+      .ant-col-sm-offset-6 {
+        margin-left: 0;
+        margin-right: 2%;
+        width: 98%;
+      }
+    }
+  }
+
+}
+.error{
+  color: #f5222d;
+  padding-bottom:10px;
+}
+
+.datePicker{
+  :global{
+    .ant-picker{
+      width:100%;
+    }
+}
+
+}

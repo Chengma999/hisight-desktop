@@ -1,0 +1,20 @@
+{
+  "name": "ouheng-yakumi-oud-beijerland",
+  "version": "0.1.0",
+  "productName": "Boilerplate",
+  "description": "Yet another boilerplate for dva.",
+  "main": "dist/main.js",
+  "author": {
+    "name": "OuHeng-ChengMa",
+    "email": "wudioufeng@gmail.com"
+  },
+  "dependencies": {
+    "babel-runtime": "6.20.0",
+    "electron-config": "^0.2.1",
+    "electron-is": "^2.3.0",
+    "electron-log": "^1.2.2",
+    "electron-store": "^5.2.0",
+    "query-string": "5",
+    "socket.io-client": "^2.3.0"
+  }
+}

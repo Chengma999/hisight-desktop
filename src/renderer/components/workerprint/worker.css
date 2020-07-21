@@ -1,0 +1,25 @@
+.content{
+  padding-right:10px;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+.rightAlign{
+  text-align: right;
+}
+.centerAlign{
+  text-align: center;
+}
+.dottedLine{
+
+  border-top:1px dotted black;
+}
+
+.productText{
+  padding-bottom:5 px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.orderInfo{
+  font-size: 18px;
+  font-weight: 600;
+}

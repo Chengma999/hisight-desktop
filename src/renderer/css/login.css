@@ -1,0 +1,24 @@
+.loginForm{
+  max-width: 950px;
+  width: 100%;
+  margin: 30px auto;
+}
+.loginFormButton{
+  width: 100%;
+}
+.loginForget{
+  float: right;
+}
+.form{
+  @media(max-width:640px){
+    padding:0 20px;
+  }
+
+}
+.form h1{
+  text-align: center;
+  margin-top: 20px;
+  font-family: sans-serif;
+  font-weight: 600;
+  font-size: 2.4em;
+}

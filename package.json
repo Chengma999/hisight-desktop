@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "ouheng-yakumi-oud-beijerland",
+  "name": "ouheng-cafetaria-crabbehof",
   "version": "1.1.0",
   "author": {
     "name": "chencheng",
@@ -23,8 +23,8 @@
     "precommit": "npm run lint"
   },
   "build": {
-    "productName": "Ou Heng Technologies Co yakumi-oud-beijerland",
-    "appId": "yakumi-oud-beijerland",
+    "productName": "Ou Heng Technologies Co cafetaria-crabbehof",
+    "appId": "cafetaria-crabbehof",
     "files": [
       "dist/",
       "node_modules/",

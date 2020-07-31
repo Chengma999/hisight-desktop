@@ -5,6 +5,7 @@ import {
   getOmzetBonPath,
 } from './window';
 import is from 'electron-is';
+const { restaurantType } = require('../../shared/gegevens');
 const Store = require('electron-store');
 const queryString = require('query-string');
 const path = require('path');
@@ -52,8 +53,8 @@ module.exports = {
     omzetBonWindow.on('closed', () => {
       omzetBonWindow = null;
     });
-    workerWindow.hide();
-    workerKitchenWindow.hide();
+    // workerWindow.hide();
+    // workerKitchenWindow.hide();
     omzetBonWindow.hide();
   },
   print: async (order, isLooping) => {
@@ -78,7 +79,7 @@ module.exports = {
         marginType: 'custom',
         top: '20px',
         bottom: '40px',
-        left: '5px',
+        left: '10px',
         right: '7px',
       },
     };
@@ -100,7 +101,7 @@ module.exports = {
             marginType: 'custom',
             top: '20px',
             bottom: '20px',
-            left: '5px',
+            left: '10px',
             right: '7px',
           },
         };
@@ -109,17 +110,18 @@ module.exports = {
           if (is.dev()) {
             workerKitchenWindow.webContents.openDevTools();
           }
-          module.exports.checkPrintArr()
+          module.exports.checkPrintArr();
         });
       };
       if (is.dev()) {
         workerWindow.webContents.openDevTools();
       }
-      if (!order.cus_orderId) {
-        module.exports.checkPrintArr()
-        return
+      if (!order.cus_orderId || restaurantType === 'Japans') {
+        module.exports.checkPrintArr();
+        return;
       }
-      if (success && order.cus_orderId) {
+
+      if (success && order.cus_orderId && restaurantType !== 'Japans') {
         workerKitchPrint();
       }
     });

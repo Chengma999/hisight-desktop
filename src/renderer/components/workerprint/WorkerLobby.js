@@ -2,6 +2,7 @@ const React = require('react');
 import styles from './worker.css';
 const queryString = require('query-string');
 const { changeFormat } = require('../../utils/gegevens');
+const { restaurantType } = require('../../../shared/gegevens');
 let { data } = queryString.parse(global.location.search);
 data = JSON.parse(data);
 
@@ -104,15 +105,16 @@ const WorkerLobby = () => {
         </table>
         <div className={styles.dottedLine}></div>
         <table
-          style={{ width: '100%', wordBreak: 'normal', wordWrap: 'break-all' }}
+          style={{ width: '100%',  wordWrap: 'break-all' ,lineHeight:1.8}}
         >
           <tbody>
             {cartProducts.map((cartProduct) => {
-              const { quantity, title, option } = cartProduct;
+              const { quantity, title, option, chi_cha} = cartProduct;
+              const  artikelnr = restaurantType === "Japans"&& chi_cha?chi_cha:null
               return (
                 <tr>
-                  <td>
-                    {quantity} {title} {option ? option.title : ''}
+                  <td style={{wordBreak: 'break-word'}}>
+                    {quantity} {artikelnr} {title} {option ? option.title : ''}
                   </td>
                   <td className={styles.rightAlign}>
                     {changeFormat(cartProduct.subTotal)}

@@ -2,7 +2,8 @@ const React = require('react');
 import styles from './worker.css';
 const queryString = require('query-string');
 const { changeFormat } = require('../../utils/gegevens');
-let { data } = queryString.parse(global.location.search);
+const search=global.location.search.replace(/&/gi,"*")
+let { data } = queryString.parse(search);
 data = JSON.parse(data);
 
 console.log(data);

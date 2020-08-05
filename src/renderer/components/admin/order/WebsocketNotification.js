@@ -30,13 +30,15 @@ function WebsocketNotification(props) {
   // }
 
 
+  const audioFile = 'https://www.mboxdrive.com/beyond-doubt-2.mp3';
+  var audio = new Audio(audioFile);
 
 
   socket.on(`${namespace}/print`, (data) => {
     console.log(data.data);
-    listenOrders(data.data);
-    const audioFile = 'https://www.mboxdrive.com/beyond-doubt-2.mp3';
-    var audio = new Audio(audioFile);
+    if(data.data.cus_orderId){
+      listenOrders(data.data);
+    }
     audio.play();
   });
   return <div></div>;

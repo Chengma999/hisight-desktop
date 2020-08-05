@@ -3,7 +3,8 @@ import styles from './worker.css';
 const queryString = require('query-string');
 const { changeFormat } = require('../../utils/gegevens');
 const { restaurantType } = require('../../../shared/gegevens');
-let { data } = queryString.parse(global.location.search);
+const search=global.location.search.replace(/&/gi,"*")
+let { data } = queryString.parse(search);
 data = JSON.parse(data);
 
 console.log(data);
@@ -210,7 +211,7 @@ const WorkerLobby = () => {
               <td>
                 <b>Datum:</b>
               </td>
-              <td className={styles.rightAlign}>
+              <td className={styles.reservationRight}>
                 <b>{date}</b>
               </td>
             </tr>
@@ -218,7 +219,7 @@ const WorkerLobby = () => {
               <td>
                 <b>Tijd:</b>
               </td>
-              <td className={styles.rightAlign}>
+              <td className={styles.reservationRight}>
                 <b>{time}</b>
               </td>
             </tr>
@@ -226,26 +227,26 @@ const WorkerLobby = () => {
               <td>
                 <b>Aantal personen:</b>
               </td>
-              <td className={styles.rightAlign}>
+              <td className={styles.reservationRight}>
                 <b>{number_of_persons}</b>
               </td>
             </tr>
             <tr>
               <td>Naam:</td>
-              <td className={styles.rightAlign}>{name}</td>
+              <td className={styles.reservationRight}>{name}</td>
             </tr>
             <tr>
               <td>email:</td>
-              <td className={styles.rightAlign}>{mail_address}</td>
+              <td className={styles.reservationRight}>{mail_address}</td>
             </tr>
             <tr>
               <td>telefoonnummer:</td>
-              <td className={styles.rightAlign}>{tel_number}</td>
+              <td className={styles.reservationRight}>{tel_number}</td>
             </tr>
             {!opmerking ? null : (
               <tr>
                 <td>Opmerking:</td>
-                <td className={styles.rightAlign}>{opmerking}</td>
+                <td className={styles.reservationRight}>{opmerking}</td>
               </tr>
             )}
           </tbody>

@@ -1,7 +1,7 @@
 //shared gegevens
 module.exports={
-  target:"http://www.cafetaria-crabbehof.nl:5045",
+  target:"http://www.yakumi.nl:5050",
   changeFormat:(p)=> new Intl.NumberFormat('nl-NL',{ style: 'currency', currency: 'EUR' }).format(p),
-  namespace:"/cafetaria-crabbehof",
-  restaurantType:"cafetaria"
+  namespace:"/yakumi-oud-beijerland",
+  restaurantType:"Japans"
 }

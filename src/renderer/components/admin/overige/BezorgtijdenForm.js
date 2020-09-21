@@ -2,7 +2,8 @@ import React from 'react'
 import { Form, Input,Select, Button, } from 'antd';
 import axios from 'axios'
 import moment from 'moment'
-const {target} =require('../../../utils/gegevens')
+// const {target} =require('../../../utils/gegevens')
+const target = localStorage.getItem('target');
 const {Option} = Select
 
 const arr=[];

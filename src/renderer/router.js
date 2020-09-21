@@ -5,6 +5,7 @@ import LoginPage from './routes/Login';
 import Admin from './routes/Admin'
 import requireAuth from './utils/requireAuth'
 import AdminProducts from './components/admin/productscrud/AdminProducts.js'
+import ReservationOverview from './components/admin/reservation/ReservationOverview.js'
 import AdminOrders from './components/admin/order/Order.js'
 import Overige from './components/admin/overige/overige.js'
 
@@ -16,6 +17,7 @@ function RouterConfig({ history }) {
         <Route path="/login" exact  component={LoginPage} />
         <Route  path="/admin" exact component={requireAuth(Admin)}/>
         <Route  path="/admin/products" exact component={requireAuth(AdminProducts)}/>
+        <Route  path="/admin/reservation_overview" exact component={requireAuth(ReservationOverview)}/>
         <Route  path="/admin/orders" exact component={requireAuth(AdminOrders)}/>
         <Route  path="/admin/overige" exact component={requireAuth(Overige)}/>
       </div>

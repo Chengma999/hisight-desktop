@@ -13,6 +13,7 @@ const {
   totalBezorgenRevenue,
   aantal,
   date,
+  omzetPeriod
 } = data;
 const OmzetBon = () => {
   const splited = date.split(',');
@@ -21,7 +22,7 @@ const OmzetBon = () => {
       className={styles.content}
       style={{ marginTop: '50px', lineHeight: 2 }}
     >
-      <b> Dagelijks financieel rapport</b>
+    {omzetPeriod==="day" ?<b> Dagelijks financieel rapport</b>:<b> Maandelijks financieel rapport</b>}
       <div>
         {splited[0]} {splited[1]}
       </div>

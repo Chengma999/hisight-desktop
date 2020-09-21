@@ -1,5 +1,5 @@
 import axios from 'axios'
-const {target} =require('../utils/gegevens')
+const target = localStorage.getItem('target');
 
 export default {
 

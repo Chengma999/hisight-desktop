@@ -2,8 +2,8 @@ const React = require('react');
 import styles from './worker.css';
 const queryString = require('query-string');
 const { changeFormat } = require('../../utils/gegevens');
-const { restaurantType } = require('../../../shared/gegevens');
-const search=global.location.search.replace(/&/gi,"*")
+const restaurantType = localStorage.getItem('restaurantType');
+const search = global.location.search.replace(/&/gi, '*');
 let { data } = queryString.parse(search);
 data = JSON.parse(data);
 
@@ -23,6 +23,7 @@ const {
   notes,
   cartProducts,
   totalPrice,
+  transactieKosten,
   date,
   time,
   number_of_persons,
@@ -106,31 +107,80 @@ const WorkerLobby = () => {
         </table>
         <div className={styles.dottedLine}></div>
         <table
-          style={{ width: '100%',  wordWrap: 'break-all' ,lineHeight:1.8}}
+          style={{
+            width: '100%',
+            wordWrap: 'break-all',
+            lineHeight: 1.2,
+            tableLayout: 'fixed',
+            borderCollapse: 'separate',
+            borderSpacing: '0 4px',
+          }}
         >
           <tbody>
             {cartProducts.map((cartProduct) => {
-              const { quantity, title, option, chi_cha} = cartProduct;
-              const  artikelnr = restaurantType === "Japans"&& chi_cha?chi_cha:null
+              const { quantity, title, option, chi_cha } = cartProduct;
+              const artikelnr =
+                restaurantType === 'japans' && chi_cha ? chi_cha : null;
               return (
                 <tr>
-                  <td style={{wordBreak: 'break-word'}}>
-                    {quantity} {artikelnr} {title} {option ? option.title : ''}
+                  <td style={{ width: '8%', verticalAlign: 'top' }}>
+                    {quantity}
                   </td>
-                  <td className={styles.rightAlign}>
+                  <td style={{ wordBreak: 'break-word' }}>
+                    <span>
+                      {artikelnr} {title}
+                    </span>{' '}
+                    {option ? (
+                      <span>
+                        {' '}
+                        <br />
+                        {option.title}
+                      </span>
+                    ) : (
+                      ''
+                    )}
+                  </td>
+                  <td
+                    className={styles.rightAlign}
+                    style={{
+                      verticalAlign: 'top',
+                      width: '25%',
+                    }}
+                  >
                     {changeFormat(cartProduct.subTotal)}
                   </td>
                 </tr>
               );
             })}
+          </tbody>
+        </table>
+        <div className={styles.dottedLine}></div>
+        <table
+          style={{
+            width: '100%',
+            wordWrap: 'break-all',
+            lineHeight: 1.2,
+            tableLayout: 'fixed',
+            borderCollapse: 'separate',
+            borderSpacing: '0 5px',
+            fontSize:"12px"
+          }}
+        >
+          <tbody>
             {orderType === 'afhalen' ? null : (
               <tr>
-                <td>Bezorgkosten:</td>
+                <td style={{ width: '8%', verticalAlign: 'top' }}>1</td>
+                <td style={{ wordBreak: 'break-word' }}>Bezorgkosten:</td>
                 <td className={styles.rightAlign}>
                   {changeFormat(deliveryFee)}
                 </td>
               </tr>
             )}
+            <tr>
+              <td style={{ width: '8%', verticalAlign: 'top' }}>1</td>
+              <td style={{ wordBreak: 'break-word' }}>Transactiekosten:</td>
+              <td className={styles.rightAlign}>{changeFormat(transactieKosten)}</td>
+            </tr>
           </tbody>
         </table>
         <div className={styles.dottedLine}></div>
@@ -204,6 +254,8 @@ const WorkerLobby = () => {
             width: '100%',
             wordBreak: 'break-all',
             wordWrap: 'break-all',
+            fontSize:"14px",
+            lineHeight:"1"
           }}
         >
           <tbody>
@@ -251,6 +303,9 @@ const WorkerLobby = () => {
             )}
           </tbody>
         </table>
+        <div style={{ paddingTop: '20px', color: 'white' }}>
+          <p>end</p>
+        </div>
       </div>
     );
 };

@@ -1,14 +1,14 @@
 //shared gegevens
 module.exports={
-  target:"http://www.yakumi.nl:5050",
+  target:"http://www.nieuwpekingraalte.nl:5000",
   changeFormat:(p)=> new Intl.NumberFormat('nl-NL',{ style: 'currency', currency: 'EUR' }).format(p),
-  namespace:"/yakumi-oud-beijerland",
-  restaurantType:"japans",
+  namespace:"/dva-np",
+  restaurantType:"chinees",
   hide:true
 }
 
 // utils
 module.exports={
-  target:"http://www.yakumi.nl:5050",
+  target:"http://www.nieuwpekingraalte.nl:5000",
   changeFormat:(p)=> new Intl.NumberFormat('nl-NL',{ style: 'currency', currency: 'EUR' }).format(p)
 }

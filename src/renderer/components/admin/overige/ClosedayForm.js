@@ -3,7 +3,8 @@ import { Form,Select, Button, } from 'antd';
 import axios from 'axios'
 import moment from 'moment'
 import {daysOptions} from './timeOptions'
-const {target} =require('../../../utils/gegevens')
+// const {target} =require('../../../utils/gegevens')
+const target = localStorage.getItem('target');
 const {Option} = Select
 
 

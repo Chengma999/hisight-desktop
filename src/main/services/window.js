@@ -1,6 +1,6 @@
 import is from 'electron-is';
 import { join, resolve } from 'path';
-import { BrowserWindow } from 'electron';
+import { app,BrowserWindow } from 'electron';
 
 let count = 0;
 
@@ -10,6 +10,7 @@ export function create(opts) {
   win.on('close', () => {
     count -= 1;
     win = null;
+    app.quit()
   });
   return win;
 }

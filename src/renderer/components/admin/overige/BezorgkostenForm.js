@@ -1,7 +1,8 @@
 import React from 'react'
 import { Form, Button,Input } from 'antd';
 import axios from 'axios'
-const {target} =require('../../../utils/gegevens')
+// const {target} =require('../../../utils/gegevens')
+const target = localStorage.getItem('target');
 const changeFormat=(p)=> new Intl.NumberFormat('nl-NL',{ style: 'currency', currency: 'EUR' }).format(p)
 
 const BezorgkostenForm = props => {

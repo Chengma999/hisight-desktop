@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Form, Switch, Button, } from 'antd';
 import axios from 'axios'
 import { printStatusSet,printStatusGet } from '../../../services/print';
-const {target} =require('../../../utils/gegevens')
+const target = localStorage.getItem('target');
 
 const PrintStatusForm = props => {
 

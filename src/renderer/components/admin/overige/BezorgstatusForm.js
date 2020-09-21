@@ -1,7 +1,8 @@
 import React from 'react'
 import { Form, Switch, Button, } from 'antd';
 import axios from 'axios'
-const {target} =require('../../../utils/gegevens')
+// const {target} =require('../../../utils/gegevens')
+const target = localStorage.getItem('target');
 
 const BezorgstatusForm = props => {
 

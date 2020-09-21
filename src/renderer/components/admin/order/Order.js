@@ -23,6 +23,9 @@ import moment from 'moment';
 import AdminPage from '../AdminPage';
 import DatePickerForm from './DatePickerForm';
 import WebsocketNotification from './WebsocketNotification';
+import OmzetPrintForm from './OmzetPrintForm';
+const restaurantType = localStorage.getItem('restaurantType');
+const isLooping = false;
 const { print, omzetbonPrint } = require('../../../services/print');
 const convertInEuro = (totalPrice) => {
   return new Intl.NumberFormat('nl-NL', {
@@ -39,6 +42,7 @@ class Order extends Component {
     visible: false,
     order: {},
     chosenDate: moment(),
+    chosenMonth: moment(),
     current: 1,
     orders_paid_all: [],
     orders_in_panels: [],
@@ -59,8 +63,9 @@ class Order extends Component {
       });
     });
   }
-  omzetbonObject = (ordersArr) => {
-    const { chosenDate } = this.state;
+
+  omzetbonObject = (ordersArr, omzetPeriod) => {
+    const { chosenDate,chosenMonth } = this.state;
     let totalSalesRevenue = 0;
     let totalAfhaalRevenue = 0;
     let totalBezorgenRevenue = 0;
@@ -78,7 +83,11 @@ class Order extends Component {
       totalAfhaalRevenue,
       totalBezorgenRevenue,
       aantal: ordersArr.length,
-      date: chosenDate.format('dddd, MMMM Do YYYY, h:mm:ss,Z'),
+      date:
+        omzetPeriod === 'day'
+          ? chosenDate.format('dddd, MMMM Do YYYY, h:mm:ss,Z')
+          : chosenMonth.format(' MMMM YYYY'),
+      omzetPeriod,
     };
   };
   onFinish = (values) => {
@@ -92,6 +101,21 @@ class Order extends Component {
       chosenDate: values.date,
       orders_in_panels: newData,
     });
+  };
+  onFinishMonthReport = (values) => {
+    const { orders_paid_all } = this.state;
+    console.log('Success:', values.date);
+    const newData = orders_paid_all.filter((order) =>
+      values.date.isSame(moment(order.createdDate), 'month'),
+    );
+    this.setState(
+      {
+        chosenMonth: values.date,
+      },
+      () => {
+        this.handleOmzetBonClick(newData, 'month');
+      },
+    );
   };
   onChange = (page) => {
     this.setState({
@@ -128,11 +152,11 @@ class Order extends Component {
   handleCancel = () => {
     this.setState({ visible: false });
   };
-  handleClick = (order) => {
-    print(order);
+  handleClick = (order, isLooping, restaurantType) => {
+    print(order, isLooping, restaurantType);
   };
-  handleOmzetBonClick = (ordersArr) => {
-    const obj = this.omzetbonObject(ordersArr);
+  handleOmzetBonClick = (ordersArr, omzetPeriod) => {
+    const obj = this.omzetbonObject(ordersArr, omzetPeriod);
     omzetbonPrint(obj);
   };
   reload = () => window.location.reload();
@@ -243,7 +267,9 @@ class Order extends Component {
                 shape="circle"
                 icon={<PrinterOutlined />}
                 // onClick={()=>orderPrint(order)}
-                onClick={() => this.handleClick(order)}
+                onClick={() =>
+                  this.handleClick(order, isLooping, restaurantType)
+                }
               ></Button>
             </span>
             <span>
@@ -265,8 +291,10 @@ class Order extends Component {
         <AdminPage page="orders" />
         <WebsocketNotification listenOrders={this.listenOrders} />
         <div className={styles.ordersFull}>
-          <div style={{textAlign:"center"}}>
-            <Button type="danger" onClick={this.reload}>Refresh</Button>
+          <div style={{ textAlign: 'center' }}>
+            <Button type="danger" onClick={this.reload}>
+              Refresh
+            </Button>
           </div>
           <DatePickerForm onFinish={this.onFinish} />
 
@@ -326,17 +354,9 @@ class Order extends Component {
           ;
         </div>
         <div className={styles.totalRevenue}>
-          <Button
-            type="primary"
-            onClick={() =>
-              this.handleOmzetBonClick(this.state.orders_in_panels)
-            }
-          >
-            Print Dag Omzet
-          </Button>
           <Row>
             <Col sm={8} xs={24}>
-              <Title>AFhaal:{convertInEuro(totalAfhaalRevenue)}</Title>
+              <Title>Afhalen:{convertInEuro(totalAfhaalRevenue)}</Title>
             </Col>
             <Col sm={8} xs={24}>
               <Title>Bezorgen:{convertInEuro(totalBezorgenRevenue)}</Title>
@@ -346,6 +366,12 @@ class Order extends Component {
             </Col>
           </Row>
         </div>
+
+        <OmzetPrintForm
+          handleOmzetBonClick={this.handleOmzetBonClick}
+          dagRapportOrdersArr={this.state.orders_in_panels}
+          onFinishMonthReport={this.onFinishMonthReport}
+        />
       </div>
     );
   }

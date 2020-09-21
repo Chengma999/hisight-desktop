@@ -5,7 +5,6 @@ import {
   getOmzetBonPath,
 } from './window';
 import is from 'electron-is';
-const { restaurantType } = require('../../shared/gegevens');
 const Store = require('electron-store');
 const queryString = require('query-string');
 const path = require('path');
@@ -20,7 +19,7 @@ let isPrinting = false;
 let printArr = [];
 
 module.exports = {
-  init: () => {
+  init: (hide) => {
     workerWindow = create({
       height: 600,
       width: 800,
@@ -53,11 +52,13 @@ module.exports = {
     omzetBonWindow.on('closed', () => {
       omzetBonWindow = null;
     });
-    workerWindow.hide();
-    workerKitchenWindow.hide();
-    omzetBonWindow.hide();
+    if (hide){
+      workerWindow.hide();
+      workerKitchenWindow.hide();
+      omzetBonWindow.hide();
+    }
   },
-  print: async (order, isLooping) => {
+  print: async (order, isLooping,restaurantType) => {
     if (isPrinting && !isLooping) {
       printArr.push(order);
       return;
@@ -116,12 +117,12 @@ module.exports = {
       if (is.dev()) {
         workerWindow.webContents.openDevTools();
       }
-      if (!order.cus_orderId || restaurantType === 'Japans') {
+      if (!order.cus_orderId || restaurantType === 'japans') {
         module.exports.checkPrintArr();
         return;
       }
 
-      if (success && order.cus_orderId && restaurantType !== 'Japans') {
+      if (success && order.cus_orderId && restaurantType !== 'japans') {
         workerKitchPrint();
       }
     });

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Select, Button } from 'antd';
 import { getPrinters, printerSet, printerGet } from '../../../services/print';
-const { target } = require('../../../utils/gegevens');
+const target = localStorage.getItem('target');
 const { Option } = Select;
 
 const PrinterForm = (props) => {

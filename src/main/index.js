@@ -6,9 +6,10 @@ import * as application from './services/application';
 import * as window from './services/window';
 import * as menu from './services/menu';
 import * as print from './services/print';
+import * as socketServices from './services/socket';
 import * as config from './configs/config';
 const io = require('socket.io-client');
-const { namespace } = require('../shared/gegevens');
+
 log.transports.file.level = 'info';
 
 log.info('(main/index) >>>>>>>>>>>>>>>>>>');
@@ -23,19 +24,6 @@ app.on('ready', () => {
   log.info('(main/index) app ready');
   application.init();
   menu.init();
-  print.init();
-
-  const socket = io(
-    is.production()
-      ? `http://136.144.214.133:5001${namespace}`
-      : `http://127.0.0.1:5001${namespace}`,
-  );
-  socket.on(`${namespace}/print`, (data) => {
-    console.log(data.data);
-    if (print.printStatusGet()) {
-      print.print(data.data);
-    }
-  });
 
   // 加载 devtools extension
   if (is.dev()) {
@@ -70,6 +58,7 @@ global.services = {
   application,
   window,
   print,
+  socketServices,
 };
 global.configs = {
   config,

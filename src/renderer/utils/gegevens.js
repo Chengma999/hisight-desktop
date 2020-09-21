@@ -1,5 +1,5 @@
 // utils
 module.exports={
-  target:"http://www.yakumi.nl:5050",
+  target:"http://www.cafetariafifty-nine.nl",
   changeFormat:(p)=> new Intl.NumberFormat('nl-NL',{ style: 'currency', currency: 'EUR' }).format(p)
 }

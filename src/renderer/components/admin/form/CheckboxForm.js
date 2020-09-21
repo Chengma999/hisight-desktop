@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { Form, Button,Input } from 'antd';
 import axios from 'axios'
-const {target} =require('../../../utils/gegevens')
+// const {target} =require('../../../utils/gegevens')
+const target = localStorage.getItem('target');
 
 const layout = {
   labelCol: { span: 8 },

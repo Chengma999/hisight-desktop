@@ -31,6 +31,8 @@ const {
   mail_address,
   tel_number,
   opmerking,
+  paymethod,
+  discountAmount,
 } = data;
 const WorkerLobby = () => {
   if (cus_orderId)
@@ -38,6 +40,17 @@ const WorkerLobby = () => {
       <div className={styles.content}>
         <table style={{ width: '100%' }}>
           <tbody>
+            {paymethod !== 'cash' ? null : (
+              <tr>
+                <td></td>
+                <td
+                  style={{ borderStyle: 'solid', borderWidth: '3px' }}
+                  className={styles.rightAlign}
+                >
+                  <b>NOG TE BETALEN</b>
+                </td>
+              </tr>
+            )}
             <tr>
               <td>
                 <b>{cus_orderId}</b>
@@ -163,7 +176,7 @@ const WorkerLobby = () => {
             tableLayout: 'fixed',
             borderCollapse: 'separate',
             borderSpacing: '0 5px',
-            fontSize:"12px"
+            fontSize: '12px',
           }}
         >
           <tbody>
@@ -176,14 +189,48 @@ const WorkerLobby = () => {
                 </td>
               </tr>
             )}
-            <tr>
-              <td style={{ width: '8%', verticalAlign: 'top' }}>1</td>
-              <td style={{ wordBreak: 'break-word' }}>Transactiekosten:</td>
-              <td className={styles.rightAlign}>{changeFormat(transactieKosten)}</td>
-            </tr>
+            {paymethod === 'cash' ? null : (
+              <tr>
+                <td style={{ width: '8%', verticalAlign: 'top' }}>1</td>
+                <td style={{ wordBreak: 'break-word' }}>Transactiekosten:</td>
+                <td className={styles.rightAlign}>
+                  {changeFormat(transactieKosten)}
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
-        <div className={styles.dottedLine}></div>
+        {paymethod === 'cash' ? null : (
+          <div className={styles.dottedLine}></div>
+        )}
+        {discountAmount === 0 ? null : (
+          <div>
+            <table
+              style={{
+                width: '100%',
+                wordWrap: 'break-all',
+                lineHeight: 1.2,
+                tableLayout: 'fixed',
+                borderCollapse: 'separate',
+                borderSpacing: '0 5px',
+                fontSize: '12px',
+              }}
+            >
+              <tbody>
+                <tr>
+                  <td style={{ wordBreak: 'break-word' }}>Uw korting:</td>
+                  <td
+                    style={{ whiteSpace: 'nowrap' }}
+                    className={styles.rightAlign}
+                  >
+                    - {changeFormat(discountAmount)}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div className={styles.dottedLine}></div>
+          </div>
+        )}
         <table style={{ width: '100%' }}>
           <tbody>
             <tr>
@@ -254,8 +301,8 @@ const WorkerLobby = () => {
             width: '100%',
             wordBreak: 'break-all',
             wordWrap: 'break-all',
-            fontSize:"14px",
-            lineHeight:"1"
+            fontSize: '14px',
+            lineHeight: '1',
           }}
         >
           <tbody>

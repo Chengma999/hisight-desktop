@@ -23,6 +23,7 @@ const {
   notes,
   cartProducts,
   totalPrice,
+  paymethod,
 } = data;
 const WorkerKitchen = () => {
   return (
@@ -31,7 +32,17 @@ const WorkerKitchen = () => {
         <tbody className={styles.orderInfo}>
           <tr>
             <td>{cus_orderId}</td>
-            <td></td>
+
+            {paymethod !== 'cash' ? (
+              <td></td>
+            ) : (
+              <td
+                style={{ borderStyle: 'solid', borderWidth: '3px' }}
+                className={styles.rightAlign}
+              >
+                未付款
+              </td>
+            )}
           </tr>
           <tr>
             <td>

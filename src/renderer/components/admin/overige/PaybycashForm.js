@@ -3,18 +3,18 @@ import { Form, Switch, Button } from "antd";
 const restaurant_id = localStorage.getItem('restaurant_id');
 
 
-const BezorgstatusForm = ({ bezorgstatus, updateBezorgstatus }) => {
+const PaybycashForm = ({ paybycash, updatePaybycash }) => {
   const [form] = Form.useForm();
   const onFinish = async (values) => {
     values.restaurant_id = restaurant_id;
-    updateBezorgstatus(values);
+    updatePaybycash(values);
   };
-  form.setFieldsValue({ bezorgstatus });
+  form.setFieldsValue({ paybycash });
   return (
     <div>
-      <b>{bezorgstatus ? "AAN" : "UIT"}</b>
+      <b>{paybycash ? "AAN" : "UIT"}</b>
       <Form name="basic" form={form} onFinish={onFinish}>
-        <Form.Item name="bezorgstatus" label="" valuePropName="checked">
+        <Form.Item name="paybycash" label="" valuePropName="checked">
           <Switch />
         </Form.Item>
 
@@ -26,4 +26,4 @@ const BezorgstatusForm = ({ bezorgstatus, updateBezorgstatus }) => {
   );
 };
 
-export default BezorgstatusForm;
+export default PaybycashForm;

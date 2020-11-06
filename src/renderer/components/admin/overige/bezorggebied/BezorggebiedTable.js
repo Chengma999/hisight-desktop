@@ -1,0 +1,203 @@
+import React, { useState } from "react";
+import styles from "../../../admin/admin.less";
+import { Table, Input, InputNumber, Popconfirm, Form, Button } from "antd";
+
+const EditableCell = ({
+  editing,
+  dataIndex,
+  title,
+  inputType,
+  record,
+  index,
+  children,
+  ...restProps
+}) => {
+  const inputNode =
+    inputType === "number" ? (
+      <InputNumber />
+    ) : inputType === "text" ? (
+      <Input />
+    ) : (
+      <Input />
+    );
+  return (
+    <td {...restProps}>
+      {editing ? (
+        <Form.Item
+          name={dataIndex}
+          style={{
+            margin: 0,
+          }}
+          rules={[
+            {
+              required: true,
+              message: `Please Input ${title}!`,
+            },
+          ]}
+        >
+          {inputNode}
+        </Form.Item>
+      ) : (
+        children
+      )}
+    </td>
+  );
+};
+
+const BezorggebiedTable = (props) => {
+  const { bezorggebied, updateBezorggebied, deleteBezorggebied } = props;
+  const [form] = Form.useForm();
+  const [editingKey, setEditingKey] = useState("");
+  const isEditing = (record) => record.postcode === editingKey;
+
+  const edit = (record) => {
+    form.setFieldsValue({
+      postcode: "",
+      fee: "",
+      min_value: "",
+      ...record,
+    });
+    setEditingKey(record.postcode);
+  };
+
+  const cancel = () => {
+    setEditingKey("");
+  };
+  const deleteItem = async (record) => {
+    try {
+      deleteBezorggebied({
+        postcode: record.postcode,
+      }).then(() => setEditingKey(""));
+    } catch (errInfo) {
+      console.log("Delete Failed:", errInfo);
+    }
+  };
+
+  const save = async (old_postcode, fee, cat_number) => {
+    try {
+      const row = await form.validateFields();
+
+      updateBezorggebied({
+        old_postcode,
+        ...row,
+      }).then(() => setEditingKey(""));
+    } catch (errInfo) {
+      console.log("Update Failed:", errInfo);
+    }
+  };
+
+  const columns = [
+    {
+      title: "Postcode",
+      dataIndex: "postcode",
+      width: "25%",
+      editable: true,
+    },
+    {
+      title: "Bezorgkosten",
+      dataIndex: "fee",
+      width: "25%",
+      editable: true,
+    },
+    {
+      title: "Minimum bestelwaarde",
+      dataIndex: "min_value",
+      width: "15%",
+      editable: true,
+    },
+    {
+      title: "operation",
+      dataIndex: "operation",
+      render: (_, record) => {
+        const editable = isEditing(record);
+        return editable ? (
+          <span>
+            <Button
+              style={{
+                marginRight: "5px",
+                marginBottom: "5px",
+                color: "white",
+                background: "#268540",
+              }}
+              onClick={() =>
+                save(record.postcode, record.fee, record.min_value)
+              }
+            >
+              Save
+            </Button>
+            <Button
+              style={{
+                marginRight: "5px",
+                marginBottom: "5px",
+                color: "white",
+                background: "#ec3ff2",
+              }}
+              onClick={cancel}
+            >
+              Cancel
+            </Button>
+          </span>
+        ) : (
+          <span>
+            <Button
+              style={{ background: "#1613d1", color: "white" }}
+              disabled={editingKey !== ""}
+              onClick={() => edit(record)}
+            >
+              Edit
+            </Button>
+            <Popconfirm
+              title="Zeker weten om te verwijderen?"
+              onConfirm={() => deleteItem(record)}
+            >
+              <Button
+                style={{ background: "#c90414", color: "white" }}
+                disabled={editingKey !== ""}
+              >
+                Delete
+              </Button>
+            </Popconfirm>
+          </span>
+        );
+      },
+    },
+  ];
+  const mergedColumns = columns.map((col) => {
+    if (!col.editable) {
+      return col;
+    }
+
+    return {
+      ...col,
+      onCell: (record) => ({
+        record,
+        inputType: "number",
+        dataIndex: col.dataIndex,
+        title: col.title,
+        editing: isEditing(record),
+      }),
+    };
+  });
+  return (
+    <div className={styles.table}>
+      <Form form={form} component={false}>
+        <Table
+          components={{
+            body: {
+              cell: EditableCell,
+            },
+          }}
+          bordered
+          dataSource={bezorggebied.map((ele, i) => ({ key: i, ...ele }))}
+          columns={mergedColumns}
+          rowClassName="editable-row"
+          pagination={{
+            onChange: cancel,
+          }}
+        />
+      </Form>
+    </div>
+  );
+};
+
+export default BezorggebiedTable;

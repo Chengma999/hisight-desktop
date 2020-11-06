@@ -20,7 +20,8 @@
     "pack": "npm run build && npm run rebuild && electron-builder build",
     "pack:dir": "npm run build && npm run rebuild && electron-builder build --dir",
     "pack:justBuild": "build --dir",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "dist-all": "electron-builder -mw"
   },
   "build": {
     "productName": "Ou Heng Technologies Co desktop-software",
@@ -35,9 +36,20 @@
     "asar": true,
     "win": {
       "target": [
-        "nsis"
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
       ],
       "icon": "build/logo.png"
+    },
+    "mac":{
+      "target":"dmg",
+      "icon": "build/logo.png"
+
     },
     "directories": {
       "buildResources": "app"

@@ -1,20 +1,19 @@
-import axios from 'axios';
 import { routerRedux } from 'dva/router';
 import { socket } from '../services/socket';
 import { printInit } from '../services/print';
+import {instanceLogin} from '../utils/gegevens'
 const asyncLocalStorage = {
   setItem: function (key, value) {
-      return Promise.resolve().then(function () {
-          localStorage.setItem(key, value);
-      });
+    return Promise.resolve().then(function () {
+      localStorage.setItem(key, value);
+    });
   },
   getItem: function (key) {
-      return Promise.resolve().then(function () {
-          return localStorage.getItem(key);
-      });
-  }
+    return Promise.resolve().then(function () {
+      return localStorage.getItem(key);
+    });
+  },
 };
-
 export default {
   namespace: 'login',
 
@@ -28,23 +27,32 @@ export default {
   effects: {
     *login({ payload }, { call, put }) {
       try {
-        const { data } = yield call(
-          axios.post,
-          `https://www.ouheng.nl/api/settings/auth`,
-          payload,
-        );
+        const { data } = yield call(instanceLogin.post, '/api/settings/auth', payload);
         const { doc } = data;
-        const { token, namespace, restaurantType, reservationOverview,hide, target } = doc;
+        const {
+          token,
+          namespace,
+          restaurantType,
+          reservationOverview,
+          hide,
+          target,
+          _id
+        } = doc;
         yield call(asyncLocalStorage.setItem, 'jwtToken', token);
         yield call(asyncLocalStorage.setItem, 'target', target);
         yield call(asyncLocalStorage.setItem, 'namespace', namespace);
         yield call(asyncLocalStorage.setItem, 'restaurantType', restaurantType);
-        yield call(asyncLocalStorage.setItem, 'reservationOverview', reservationOverview);
+        yield call(asyncLocalStorage.setItem, 'restaurant_id', _id);
+        yield call(
+          asyncLocalStorage.setItem,
+          'reservationOverview',
+          reservationOverview,
+        );
         yield call(asyncLocalStorage.setItem, 'hide', hide);
         socket(namespace, restaurantType);
         printInit(hide);
         yield put(routerRedux.push('/admin'));
-        window.location.reload()
+        window.location.reload();
       } catch (e) {
         console.log(e);
       }

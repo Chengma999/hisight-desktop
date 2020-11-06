@@ -1,76 +1,96 @@
-.modalOneButton{
-
-  :global{
+.modalOneButton {
+  :global {
     .ant-modal-footer .ant-btn.ant-btn-primary {
-      display:none;
+      display: none;
     }
   }
 }
-.ordersFull{
-
+.ordersFull {
   margin: 20px auto;
   padding: 10px 20px;
-  @media (min-width: 640px){
+  @media (min-width: 640px) {
     max-width: 850px;
   }
 }
-@base:{
-  width:25%;
-  float:left;
-
+@base: {
+  width: 25%;
+  float: left;
 };
-.productsHeader{
-    overflow: auto;
-    // border-bottom-style: solid;
-    // border-width: 0.2px;
+.productsHeader {
+  overflow: auto;
+  // border-bottom-style: solid;
+  // border-width: 0.2px;
 }
-.printer{
+.printer {
   margin-top: 20px;
   text-align: center;
 }
-.pagination{
-
+.pagination {
   padding: 20px;
   text-align: center;
 }
-.totalRevenue{
+.totalRevenue {
   text-align: center;
-    :global{
-      .ant-typography{
-        font-size:30px;
-        @media(max-width:640px){
-          font-size:20px;
-        }
+  :global {
+    .ant-typography {
+      font-size: 30px;
+      @media (max-width: 640px) {
+        font-size: 20px;
       }
     }
   }
+}
 
-
-.table{
-  :global{
-    .ant-table-wrapper{
-      @media(min-width:640px){
-          width:80%;
-          margin-left:10%;
-        }
+.table {
+  :global {
+    .ant-table-wrapper {
+      @media (min-width: 640px) {
+        width: 80%;
+        margin-left: 10%;
+      }
+    }
+    .form-inline {
+      @media (min-width: 640px) {
+        width: 80%;
+        margin-left: 10%;
+      }
+    }
+    .ant-select {
+      width: 200px;
+      margin-bottom: 20px;
+      @media (min-width: 640px) {
+        margin-left: 10%;
+        width: 400px;
+      }
+    }
+    h4 {
+      text-align: center;
     }
   }
 }
-.button{
-  @media(min-width:640px){
-    margin-left:10%;
+.button {
+  @media (min-width: 640px) {
+    margin-left: 10%;
   }
-  margin-top:20px;
-  margin-bottom:20px;
-
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
-.lists{
-  :global{
+.lists {
+  :global {
     .ant-spin-container {
-      @media(min-width:640px){
-        margin-left:5%;
-        width:90%;
+      @media (min-width: 640px) {
+        margin-left: 5%;
+        width: 90%;
       }
     }
   }
+}
+
+.error {
+  color: red;
+  margin-left: 10%;
+  margin-bottom: 5px;
+  font-size: 15px;
+  font-weight: 600;
+  font-style: oblique;
 }

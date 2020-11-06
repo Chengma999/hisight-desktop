@@ -20,10 +20,6 @@ const tailLayout = {
   }
 };
 
-const onChange=(date, dateString)=>{
-  console.log(date, dateString);
-}
-
 
 const DatePickerForm =(props)=>{
 
@@ -38,9 +34,8 @@ const DatePickerForm =(props)=>{
             >
             <DatePicker
               format={dateFormatList}
-              onChange={onChange}
+              onChange={props.onChange}
               placeholder='vandaag'
-
               // value={this.state.value}
 
             />
@@ -49,7 +44,7 @@ const DatePickerForm =(props)=>{
 
           <Form.Item {...tailLayout}>
             <Button type="primary" block htmlType="submit">
-              Kiezen
+              Submit
             </Button>
           </Form.Item>
         </Form>

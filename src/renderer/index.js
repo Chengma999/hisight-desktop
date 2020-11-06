@@ -21,7 +21,9 @@ app.model(require('./models/admincrud'));
 app.model(require('./models/bezorgkosten'));
 app.model(require('./models/bezorgstatus'));
 app.model(require('./models/factors'));
-
+app.model(require('./models/overige'));
+app.model(require('./models/basicinfo'));
+app.model(require('./models/options'));
 // 4. Router
 
 app.router(require('./router'));

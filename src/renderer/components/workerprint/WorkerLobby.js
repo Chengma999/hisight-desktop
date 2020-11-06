@@ -203,7 +203,7 @@ const WorkerLobby = () => {
         {paymethod === 'cash' ? null : (
           <div className={styles.dottedLine}></div>
         )}
-        {discountAmount === 0 ? null : (
+        {!discountAmount||discountAmount === 0  ? null : (
           <div>
             <table
               style={{

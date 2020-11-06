@@ -32,7 +32,7 @@ export default class AddNewItem extends Component {
 
   render() {
     const { visible } = this.state;
-    const { addInDb,loading,categories,admincrud } = this.props;
+    const { addInDb,loading,categories,admincrud,products } = this.props;
     return (
       <div style={{margin:'10px auto 10px auto',textAlign:'center'}}>
          <Affix offsetTop={10}>
@@ -53,7 +53,7 @@ export default class AddNewItem extends Component {
             </Button>,
           ]}
         >
-            <AddForm addInDb={addInDb} loading={loading} admincrud ={admincrud} categories={categories} onRef={this.onRef} />
+            <AddForm addInDb={addInDb} loading={loading} admincrud ={admincrud} categories={categories} onRef={this.onRef} products={products}/>
         </Modal>
       </div>
     )

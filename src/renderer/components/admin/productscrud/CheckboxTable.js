@@ -1,66 +1,73 @@
-import React from 'react'
-import {Table} from 'antd'
-import CheckboxForm from '../form/CheckboxForm'
-import styles from '../admin.less'
+import React from "react";
+import { Table } from "antd";
+import CheckboxForm from "../form/CheckboxForm";
+import styles from "../admin.less";
 const columns = [
   {
-    title: 'KEYS',
-    dataIndex: 'keys',
+    title: "KEYS",
+    dataIndex: "keys",
     width: 100,
-    render:(text)=><div style={{fontWeight:'600'}}>{text}</div>
+    render: (text) => <div style={{ fontWeight: "600" }}>{text}</div>,
   },
   {
-    title: 'VALUES',
-    dataIndex: 'values',
+    title: "VALUES",
+    dataIndex: "values",
     width: 100,
   },
-
-
 ];
 
-
-function CheckboxTable(props) {
-  const {checkbox}= props
-
+function CheckboxTable({ checkbox, updateCheckbox }) {
   const data = [
     {
       key: 1,
-      keys: "Extra1" ,
-      values: <CheckboxForm  checkboxcode={1} checkbox={checkbox} />,
-
+      keys: "checkbox1",
+      values: (
+        <CheckboxForm
+          checkboxcode={1}
+          checkbox={checkbox}
+          updateCheckbox={updateCheckbox}
+        />
+      ),
     },
     {
       key: 2,
-      keys: "Extra2" ,
-      values: <CheckboxForm  checkboxcode={2} checkbox={checkbox} />,
-
+      keys: "checkbox2",
+      values: (
+        <CheckboxForm
+          checkboxcode={2}
+          checkbox={checkbox}
+          updateCheckbox={updateCheckbox}
+        />
+      ),
     },
     {
       key: 3,
-      keys: "Extra3" ,
-      values: <CheckboxForm  checkboxcode={3} checkbox={checkbox} />,
-
+      keys: "checkbox3",
+      values: (
+        <CheckboxForm
+          checkboxcode={3}
+          checkbox={checkbox}
+          updateCheckbox={updateCheckbox}
+        />
+      ),
     },
     {
       key: 4,
-      keys: "Extra4" ,
-      values: <CheckboxForm  checkboxcode={4} checkbox={checkbox}/>,
-
-    }
+      keys: "checkbox4",
+      values: (
+        <CheckboxForm
+          checkboxcode={4}
+          checkbox={checkbox}
+          updateCheckbox={updateCheckbox}
+        />
+      ),
+    },
   ];
   return (
     <div className={styles.table}>
-        <Table
-                columns={columns}
-                dataSource={data}
-                pagination={false}
-                bordered
-        />
+      <Table columns={columns} dataSource={data} pagination={false} bordered />
     </div>
-
-  )
+  );
 }
 
-export default CheckboxTable
-
-
+export default CheckboxTable;

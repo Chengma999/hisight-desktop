@@ -1,19 +1,37 @@
-import React, { Component } from 'react';
-import { List, Card, Modal, Typography } from 'antd';
-import { connect } from 'dva';
-import UpdateForm from '../form/UpdateForm';
-import AddNewItem from '../form/AddNewItem';
-import styles from '../admin.less';
-import { updateInDb, deleteInDb, addInDb } from '../../../actions/index';
-import AdminPage from '../AdminPage';
-import CheckboxTable from './CheckboxTable';
-import CategoriesTable from './CategoriesTable';
+import React, { Component } from "react";
+import { List, Card, Modal, Typography } from "antd";
+import { connect } from "dva";
+import UpdateForm from "../form/UpdateForm";
+import AddNewItem from "../form/AddNewItem";
+import styles from "../admin.less";
+import {
+  updateInDb,
+  deleteInDb,
+  addInDb,
+  fetchCategories,
+  addCategorie,
+  updateCategorie,
+  deleteCategorie,
+  updateCheckbox,
+  cancelProductModal,
+  addGroup,
+  updateGroup,
+  deleteGroup,
+  addGroupOption,
+  updateGroupOption,
+  deleteGroupOption,
+} from "../../../actions/index";
+import AdminPage from "../AdminPage";
+import CheckboxTable from "./CheckboxTable";
+import CategoriesComponent from "./CategoriesComponent";
+import OptionsComponent from "./OptionsComponent";
+
 const { Title } = Typography;
 
 const convertInEuro = (totalPrice) => {
-  return new Intl.NumberFormat('nl-NL', {
-    style: 'currency',
-    currency: 'EUR',
+  return new Intl.NumberFormat("nl-NL", {
+    style: "currency",
+    currency: "EUR",
   }).format(totalPrice);
 };
 
@@ -42,9 +60,26 @@ class AdminProducts extends Component {
       visible: false,
       current: {},
     });
+    this.props.cancelProductModal();
   };
 
   static propTypes = {};
+  componentDidUpdate(prevProps) {
+    const { products } = this.props.products;
+    const prevProducts = prevProps.products.products;
+    if (
+      Array.isArray(products) &&
+      Array.isArray(prevProducts) &&
+      products.length === prevProducts.length &&
+      JSON.stringify(products) !== JSON.stringify(prevProducts)
+    ) {
+      const { current } = this.state;
+      const index = products.findIndex((product) => product.id === current.id);
+
+      this.setState({ current: products[index] });
+    }
+  }
+
   render() {
     const {
       products,
@@ -53,11 +88,22 @@ class AdminProducts extends Component {
       updateInDb,
       deleteInDb,
       addInDb,
+      fetchCategories,
       admincrud,
-      checkbox,
+      basicinfo,
+      addCategorie,
+      updateCategorie,
+      deleteCategorie,
+      updateCheckbox,
+      addGroup,
+      updateGroup,
+      deleteGroup,
+      addGroupOption,
+      updateGroupOption,
+      deleteGroupOption,
     } = this.props;
     const { current } = this.state;
-    const productsLoading = loading.effects['products/fetch'];
+    const productsLoading = loading.effects["products/fetch"];
     return (
       <div>
         <AdminPage page="products" />
@@ -66,9 +112,10 @@ class AdminProducts extends Component {
           loading={loading}
           admincrud={admincrud}
           categories={categories}
+          products={products}
         />
 
-        <div style={{ paddingLeft: '10%' }}>
+        <div style={{ paddingLeft: "5%" }}>
           <Title level={2}>Producten</Title>
         </div>
         {productsLoading === false ? (
@@ -91,38 +138,54 @@ class AdminProducts extends Component {
                   <Card title={title}>
                     {convertInEuro(item.price)}
                     <br />
-                    {item.menukind === 'withoutOption'
-                      ? 'Soep/Voorgerecht/Geen bijgerecht nodig'
-                      : item.menukind === 'menu'
-                      ? 'Bijgerechten voor 2'
-                      : 'Bijgerechten voor 1'}
+                    {item.chi_cha} - {item.discription} - {item.menukind}
                     <br />
-                    {item.chi_cha}
                   </Card>
                 </List.Item>
               );
             }}
           />
         ) : (
-          ''
+          ""
         )}
-        <div style={{ paddingLeft: '10%' }}>
+        <div style={{ paddingLeft: "10%" }}>
           <Title level={2}>Categories</Title>
         </div>
-        <CategoriesTable categories={categories} />
-
-        <div style={{ paddingLeft: '10%' }}>
-          <Title level={2}>Extra's</Title>
+        <CategoriesComponent
+          categories={basicinfo.categories}
+          fetchCategories={fetchCategories}
+          addCategorie={addCategorie}
+          updateCategorie={updateCategorie}
+          deleteCategorie={deleteCategorie}
+        />
+        <div style={{ paddingLeft: "10%" }}>
+          <Title level={2}>Checkboxes</Title>
         </div>
 
-        <CheckboxTable checkbox={checkbox} />
+        <CheckboxTable
+          checkbox={basicinfo.checkbox}
+          updateCheckbox={updateCheckbox}
+        />
+
+        <div style={{ paddingLeft: "10%" }}>
+          <Title level={2}>Groepen & Opties</Title>
+        </div>
+        <OptionsComponent
+          options={basicinfo.options}
+          addGroup={addGroup}
+          updateGroup={updateGroup}
+          deleteGroup={deleteGroup}
+          addGroupOption={addGroupOption}
+          updateGroupOption={updateGroupOption}
+          deleteGroupOption={deleteGroupOption}
+        />
 
         <Modal //producten
           className={styles.modalOneButton}
           title={
             current.title !== undefined
-              ? current.id.toString().concat(' ', current.title)
-              : ''
+              ? current.id.toString().concat(" ", current.title)
+              : ""
           }
           visible={this.state.visible}
           onCancel={this.handleCancel}
@@ -134,8 +197,9 @@ class AdminProducts extends Component {
             updateInDb={updateInDb}
             deleteInDb={deleteInDb}
             loading={loading}
-            admincrud={admincrud}
+            options ={basicinfo.options}
             categories={categories}
+            products={products}
           />
         </Modal>
       </div>
@@ -149,14 +213,30 @@ const mapStateToProps = ({
   admincrud,
   categories,
   checkbox,
+  basicinfo,
 }) => ({
   products,
   loading,
   admincrud,
   categories,
   checkbox,
+  basicinfo,
 });
 
-export default connect(mapStateToProps, { updateInDb, deleteInDb, addInDb })(
-  AdminProducts,
-);
+export default connect(mapStateToProps, {
+  updateInDb,
+  deleteInDb,
+  addInDb,
+  fetchCategories,
+  addCategorie,
+  updateCategorie,
+  deleteCategorie,
+  updateCheckbox,
+  cancelProductModal,
+  addGroup,
+  updateGroup,
+  deleteGroup,
+  addGroupOption,
+  updateGroupOption,
+  deleteGroupOption,
+})(AdminProducts);

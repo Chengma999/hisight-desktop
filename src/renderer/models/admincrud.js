@@ -1,82 +1,42 @@
-import axios from 'axios';
-const target = localStorage.getItem('target');
+import {instance} from '../utils/gegevens'
+
+const restaurant_id = localStorage.getItem('restaurant_id');
 export default {
   namespace: 'admincrud',
 
-  state: {},
+  state: { fetchOrders: { orders: [] }, printOrder: {} },
 
   subscriptions: {
     setupHistory({ dispatch, history }) {
       history.listen(({ pathname }) => {
-        // if (pathname.includes("/admin/orders")){
-        //    dispatch({type:'ordersFetch',payload:({pathname})})
-        // }
+        if (pathname.includes('/admin/orders')) {
+          dispatch({ type: 'fetchOrders', payload: { pathname } });
+        }
       });
     },
   },
   effects: {
-    *update({ payload }, { call, put }) {
-      const { id } = payload;
+    *fetchOrders({ payload }, { call, put }) {
       try {
         const { data } = yield call(
-          axios.post,
-          `${target}/api/admincrud/update`,
-          payload,
+          instance.get,
+          `/api/admincrud/fetchOrders/${restaurant_id}`,
         );
-        yield put({ type: 'update/success', isSucceeded: true, id });
+        yield put({ type: 'fetchOrders/success', orders: data });
       } catch (e) {
-        yield put({ type: 'update/error', error: e.message, id });
+        yield put({ type: 'fetchOrders/error', error: e.message });
       }
     },
-    *add({ payload }, { call, put }) {
-      const { id } = payload;
+    *printOrder({ payload }, { call, put }) {
       try {
         const { data } = yield call(
-          axios.post,
-          `${target}/api/admincrud/add`,
+          instance.post,
+          `/api/admincrud/printOrder/${restaurant_id}`,
           payload,
         );
-        yield put({ type: 'add/success', isSucceeded: true, id });
+        yield put({ type: 'printOrder/success', isSucceeded: data });
       } catch (e) {
-        console.log(e);
-        yield put({ type: 'add/error', error: e.message, id });
-      }
-    },
-    *delete({ payload }, { call, put }) {
-      const { id } = payload;
-      try {
-        const { data } = yield call(
-          axios.post,
-          `${target}/api/admincrud/delete`,
-          payload,
-        );
-        yield put({ type: 'delete/success', isSucceeded: true, id });
-      } catch (e) {
-        yield put({ type: 'delete/error', error: e.message, id });
-      }
-    },
-    *ordersFetch({ payload }, { call, put }) {
-      try {
-        const { data } = yield call(
-          axios.get,
-          `${target}/api/admincrud/ordersfetch`,
-        );
-        yield put({ type: 'ordersFetch/success', orders: data });
-        return data;
-      } catch (e) {
-        yield put({ type: 'ordersFetch/error', error: e.message });
-      }
-    },
-    *orderPrint({ payload }, { call, put }) {
-      try {
-        const { data } = yield call(
-          axios.post,
-          `${target}/api/admincrud/orderprint`,
-          payload,
-        );
-        yield put({ type: 'orderPrint/success', isSucceeded: data });
-      } catch (e) {
-        yield put({ type: 'orderPrint/error', error: e.message });
+        yield put({ type: 'printOrder/error', error: e.message });
       }
     },
 
@@ -84,8 +44,8 @@ export default {
       const { orderId } = payload;
       try {
         const { data } = yield call(
-          axios.post,
-          `${target}/api/admincrud/sms_send`,
+          instance.post,
+          '/api/admincrud/sms_send',
           payload,
         );
         yield put({ type: 'sms_send/success', isSucceeded: true, orderId });
@@ -93,119 +53,40 @@ export default {
         yield put({ type: 'sms_send/error', error: e.message, orderId });
       }
     },
-    *reservationsFetch({ payload }, { call, put }) {
-      try {
-        const { data } = yield call(
-          axios.get,
-          `${target}/api/reserveren`,
-        );
-        yield put({ type: 'reservationsFetch/success', reservations: data });
-        return data;
-      } catch (e) {
-        yield put({ type: 'reservationsFetch/error', error: e.message });
-      }
-    },
   },
 
   reducers: {
-    'update/success'(state, action) {
-      const update_id = 'update_' + action.id;
+    'fetchOrders/success'(state, { orders }) {
       return {
         ...state,
-        [update_id]: {
+        fetchOrders: {
           error: null,
-          isSucceeded: action.isSucceeded,
-          id: action.id,
+          orders,
         },
       };
     },
-
-    'update/error'(state, action) {
-      const update_id = 'update_' + action.id;
+    'fetchOrders/error'(state, action) {
       return {
         ...state,
-        [update_id]: {
-          error: action.error,
-          isSucceeded: false,
-          id: action.id,
-        },
-      };
-    },
-    'add/success'(state, action) {
-      const add_id = 'add_' + action.id;
-      return {
-        ...state,
-        [add_id]: {
-          error: null,
-          isSucceeded: action.isSucceeded,
-          id: action.id,
-        },
-      };
-    },
-    'add/error'(state, action) {
-      const add_id = 'add_' + action.id;
-      return {
-        ...state,
-        [add_id]: {
-          error: action.error,
-          isSucceeded: false,
-          id: action.id,
-        },
-      };
-    },
-    'delete/success'(state, action) {
-      const delete_id = 'delete_' + action.id;
-      return {
-        ...state,
-        [delete_id]: {
-          id: action.id,
-          error: null,
-          isSucceeded: action.isSucceeded,
-        },
-      };
-    },
-    'delete/error'(state, action) {
-      const delete_id = 'delete_' + action.id;
-      return {
-        ...state,
-        [delete_id]: {
-          id: action.id,
-          error: action.error,
-          isSucceeded: false,
-        },
-      };
-    },
-    'ordersFetch/success'(state, action) {
-      return {
-        ...state,
-        ordersFetch: {
-          error: null,
-          orders: action.orders,
-        },
-      };
-    },
-    'ordersFetch/error'(state, action) {
-      return {
-        ...state,
-        ordersFetch: {
+        fetchOrders: {
           error: action.error,
           orders: [],
         },
       };
     },
-    'orderPrint/success'(state, action) {
+    'printOrder/success'(state, action) {
       return {
         ...state,
-        orderPrint: {
+        printOrder: {
           error: null,
           isSucceeded: action.isSucceeded,
         },
       };
     },
-    'orderPrint/error'(state, action) {
+    'printOrder/error'(state, action) {
       return {
         ...state,
-        orderPrint: {
+        printOrder: {
           error: action.error,
           isSucceeded: false,
         },
@@ -230,24 +111,6 @@ export default {
           error: action.error,
           isSucceeded: false,
           orderId: action.orderId,
-        },
-      };
-    },
-    'reservationsFetch/success'(state, action) {
-      return {
-        ...state,
-        reservationsFetch: {
-          error: null,
-          reservations: action.reservations,
-        },
-      };
-    },
-    'reservationsFetch/error'(state, action) {
-      return {
-        ...state,
-        reservationsFetch: {
-          error: action.error,
-          reservations: [],
         },
       };
     },

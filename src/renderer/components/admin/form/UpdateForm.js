@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Form, Input, Select, Button, Spin, Result, Radio } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import React, { useState } from 'react';
+import { Form, Input, Select, Button, Spin, Result, Radio } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 const restaurant_id = localStorage.getItem('restaurant_id');
 
 const { Option } = Select;
@@ -36,47 +36,47 @@ const rules = {
   id: [
     {
       required: true,
-      message: "Vul ID in!",
+      message: 'Vul ID in!',
     },
   ],
   title: [
     {
       required: true,
-      message: "Vul title in!",
+      message: 'Vul title in!',
     },
   ],
   price: [
     {
       required: true,
-      message: "Vul prijs in!",
+      message: 'Vul prijs in!',
     },
   ],
   chi_cha: [
     {
-      message: "Vul artikelnummer in!",
+      message: 'Vul artikelnummer in!',
     },
   ],
   discription: [
     {
-      message: "Vul omschrijving in!",
+      message: 'Vul omschrijving in!',
     },
   ],
   img_url: [
     {
-      message: "Vul Image URL in!",
+      message: 'Vul Image URL in!',
     },
   ],
-  extra: [{ required: false, message: "Vul extra in!" }],
+  extra: [{ required: false, message: 'Vul extra in!' }],
   menukind: [
     {
       required: true,
-      message: "Vul menusoort in!",
+      message: 'Vul menusoort in!',
     },
   ],
   categorie: [
     {
       required: true,
-      message: "Vul menusoort in!",
+      message: 'Vul menusoort in!',
     },
   ],
 };
@@ -84,13 +84,13 @@ let discountArr = [];
 for (var i = 0; i <= 20; i++) {
   const discount = {};
   discount.value = Number((0.05 * i).toFixed(2));
-  discount.label = Number((discount.value * 100).toFixed(2)) + "%";
+  discount.label = Number((discount.value * 100).toFixed(2)) + '%';
   discountArr.push({ ...discount });
 }
 const UpdateForm = (props) => {
   const { item, options, products } = props;
   const [duplicatedId, setDuplicatedId] = useState(false);
-  const [errText, setErrText] = useState("");
+  const [errText, setErrText] = useState('');
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
@@ -98,7 +98,7 @@ const UpdateForm = (props) => {
     values.price = Number(values.price);
     values.oldId = props.item.id;
     values.restaurant_id = restaurant_id;
-    console.log("Received values of form: ", values);
+    console.log('Received values of form: ', values);
     props.updateInDb(values).then((res) => {
       if (res.err) {
         setDuplicatedId(true);
@@ -106,7 +106,7 @@ const UpdateForm = (props) => {
         return;
       } else {
         setDuplicatedId(false);
-        setErrText("");
+        setErrText('');
       }
     });
   };
@@ -117,17 +117,17 @@ const UpdateForm = (props) => {
     const { id, categorie } = props.item;
 
     e.preventDefault();
-    props.deleteInDb({ id, categorie });
+    props.deleteInDb({ id, categorie, restaurant_id });
   };
   let optionsArr = (arr) => {
     if (Array.isArray(arr)) {
       const newarr = [...arr];
-      newarr.unshift({ title: "withoutOption" });
+      newarr.unshift({ title: 'withoutOption' });
       return newarr;
     }
     if (!Array.isArray(arr)) {
       const newarr = [];
-      newarr.unshift({ title: "withoutOption" });
+      newarr.unshift({ title: 'withoutOption' });
       return newarr;
     }
   };
@@ -216,8 +216,8 @@ const UpdateForm = (props) => {
         <div>
           <Result status="error" title={errText} />
         </div>
-      ) : props.loading.effects["products/updateProduct"] === true ||
-        props.loading.effects["products/deleteProduct"] === true ? (
+      ) : props.loading.effects['products/updateProduct'] === true ||
+        props.loading.effects['products/deleteProduct'] === true ? (
         <Spin indicator={antIcon} />
       ) : products.deleteSucceed ? (
         <div>
@@ -228,7 +228,7 @@ const UpdateForm = (props) => {
           <Result status="success" title="Update gelukt!" />
         </div>
       ) : (
-        ""
+        ''
       )}
     </Form>
   );

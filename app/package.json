@@ -1,6 +1,6 @@
 {
   "name": "ouheng-desktop-software",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "productName": "Boilerplate",
   "description": "Yet another boilerplate for dva.",
   "main": "dist/main.js",

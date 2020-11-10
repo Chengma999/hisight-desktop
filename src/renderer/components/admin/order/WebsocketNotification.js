@@ -37,11 +37,14 @@ function WebsocketNotification(props) {
     console.log(data.data);
     if (data.data.cus_orderId) {
       listenOrders(data.data);
+      audio.play();
+      return;
     }
-    if (!data.data.cus_orderId) {
+    if (!data.data.totalSalesRevenue) {
       listenReservations(data.data);
+      audio.play();
+      return;
     }
-    audio.play();
   });
   return <div></div>;
 }

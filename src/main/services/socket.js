@@ -2,7 +2,7 @@ const io = require('socket.io-client');
 import is from 'electron-is';
 import * as print from './print';
 
-export function socket(namespace,restaurantType) {
+export function socket(namespace, restaurantType) {
   const socket = io(
     is.production()
       ? `http://136.144.214.133:5001${namespace}`
@@ -10,9 +10,15 @@ export function socket(namespace,restaurantType) {
   );
   socket.on(`${namespace}/print`, (data) => {
     console.log(data.data);
-    const isLooping =false
-    if (print.printStatusGet()) {
-      print.print(data.data,isLooping,restaurantType);
+    const isLooping = false;
+    if (!print.printStatusGet()) {
+      return;
+    }
+    if (!data.data.totalSalesRevenue) {
+      print.print(data.data, isLooping, restaurantType);
+    }
+    if (data.data.totalSalesRevenue) {
+      print.omzetbonPrint(data.data)
     }
   });
 }

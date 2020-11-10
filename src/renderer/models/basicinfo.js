@@ -39,6 +39,7 @@ export default {
         if (
           props.pathname === "/" ||
           props.pathname === "/online_bestellen" ||
+          props.pathname === "/admin/orders" ||
           props.pathname === "/admin/products" ||
           props.pathname === "/admin/overige" ||
           props.pathname === "/privacy" ||

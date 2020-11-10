@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { notification } from 'antd';
-import { SmileOutlined } from '@ant-design/icons';
-const io = require('socket.io-client');
-// const {namespace}=require('../../../../shared/gegevens')
-const namespace = localStorage.getItem('namespace');
-const socket = io(
-  process.env.NODE_ENV === 'production'
-    ? `http://136.144.214.133:5001${namespace}`
-    : `http://127.0.0.1:5001${namespace}`,
-);
+import React, { useState, useEffect } from "react";
+import { notification } from "antd";
+import { SmileOutlined } from "@ant-design/icons";
+const io = require("socket.io-client");
+// const namespace = localStorage.getItem("namespace");
+
 function WebsocketNotification(props) {
-  const { listenOrders, listenReservations } = props;
+  const { listenOrder, listenReservations, namespace } = props;
+  const socket = io(
+    process.env.NODE_ENV === "production"
+      ? `http://136.144.214.133:5001${namespace}`
+      : `http://127.0.0.1:5001${namespace}`
+  );
   // const  initWebSocket  =  ( )  =>  {
   //   io.on ( 'getMessage' ,  message  =>  {
   //         console . log ( message )
@@ -30,21 +30,18 @@ function WebsocketNotification(props) {
   //     } )
   // }
 
-  const audioFile = 'https://www.mboxdrive.com/beyond-doubt-2.mp3';
+  const audioFile = "https://notificationsounds.com//storage/sounds/file-sounds-1155-got-it-done.mp3";
   var audio = new Audio(audioFile);
 
   socket.on(`${namespace}/print`, (data) => {
     console.log(data.data);
     if (data.data.cus_orderId) {
-      listenOrders(data.data);
-      audio.play();
-      return;
+      listenOrder({ order: data.data });
     }
-    if (!data.data.totalSalesRevenue) {
+    if (!data.data.cus_orderId) {
       listenReservations(data.data);
-      audio.play();
-      return;
     }
+    audio.play();
   });
   return <div></div>;
 }

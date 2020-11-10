@@ -1,4 +1,4 @@
-import {instance} from '../utils/gegevens'
+import { instance } from '../utils/gegevens';
 
 const restaurant_id = localStorage.getItem('restaurant_id');
 export default {
@@ -112,6 +112,21 @@ export default {
           isSucceeded: false,
           orderId: action.orderId,
         },
+      };
+    },
+    listenOrder(state, { payload }) {
+      const ordersArr = state.fetchOrders.orders.slice();
+      const { order } = payload;
+      //avoid duplicated orders from socket
+      const index = ordersArr.findIndex((item) => item._id === order._id);
+      if (index > -1) {
+        return { ...state };
+      }
+      ordersArr.push(order);
+      const fetchOrders = { orders: [...ordersArr] };
+      return {
+        ...state,
+        fetchOrders,
       };
     },
   },

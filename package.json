@@ -49,7 +49,7 @@
     "publish": [{
       "provider": "github",
       "owner": "Chengma999",
-      "repo": ""
+      "repo": "hisight-desktop"
   }],
     "directories": {
       "buildResources": "app"

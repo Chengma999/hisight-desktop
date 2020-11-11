@@ -3,7 +3,6 @@ import is from 'electron-is';
 import { join } from 'path';
 import log from 'electron-log';
 import * as application from './services/application';
-import {sendStatusToWindow} from './services/application';
 import * as window from './services/window';
 import * as menu from './services/menu';
 import * as print from './services/print';
@@ -55,16 +54,16 @@ app.on('quit', () => {
   log.info('(main/index) <<<<<<<<<<<<<<<<<<<');
 });
 autoUpdater.on('checking-for-update', () => {
-  sendStatusToWindow('Checking for update...');
+  application.sendStatusToWindow('Checking for update...');
 });
 autoUpdater.on('update-available', (info) => {
-  sendStatusToWindow('Update available.');
+  application.sendStatusToWindow('Update available.');
 });
 autoUpdater.on('update-not-available', (info) => {
-  sendStatusToWindow('Update not available.');
+  application.sendStatusToWindow('Update not available.');
 });
 autoUpdater.on('error', (err) => {
-  sendStatusToWindow('Error in auto-updater. ' + err);
+  application.sendStatusToWindow('Error in auto-updater. ' + err);
 });
 autoUpdater.on('download-progress', (progressObj) => {
   let log_message = 'Download speed: ' + progressObj.bytesPerSecond;
@@ -76,12 +75,12 @@ autoUpdater.on('download-progress', (progressObj) => {
     '/' +
     progressObj.total +
     ')';
-  sendStatusToWindow(log_message);
+  application.sendStatusToWindow(log_message);
 });
 autoUpdater.on('update-downloaded', (info) => {
-  sendStatusToWindow('Update downloaded');
+  application.sendStatusToWindow('Update downloaded');
 });
-app.on('ready', function () {
+app.on('ready', function()  {
   autoUpdater.checkForUpdatesAndNotify();
 });
 

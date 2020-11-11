@@ -1,4 +1,5 @@
 import { create, getPath } from './window';
+const log = require('electron-log');
 import { join } from 'path';
 let win;
 export function init() {

@@ -93,7 +93,7 @@ class LoginPage extends React.Component {
 
           <Form.Item {...tailLayout}>
             <Button type="primary" block htmlType="submit">
-              Login
+              Login 0.0
             </Button>
           </Form.Item>
         </Form>

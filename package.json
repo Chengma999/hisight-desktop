@@ -24,7 +24,7 @@
     "dist-all": "electron-builder -mw"
   },
   "build": {
-    "productName": "Ou Heng Technologies Co desktop-software",
+    "productName": "HiSight Technologies Co desktop",
     "appId": "hisight-desktop-software",
     "files": [
       "dist/",
@@ -44,7 +44,7 @@
           ]
         }
       ],
-      "icon": "build/logo.png"
+      "icon": "build/hisight-logo.png"
     },
     "publish": [{
       "provider": "github",

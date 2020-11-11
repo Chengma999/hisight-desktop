@@ -17,7 +17,7 @@
     "lint": "eslint --ext .js src test webpack.config.babel.js",
     "test": "mocha test/**/*-test.js --require babel-register --require ./test/setup --no-timeouts",
     "rebuild": "electron-rebuild -m ./app",
-    "pack": "npm run build && npm run rebuild && electron-builder build",
+    "pack": "npm run build && npm run rebuild && electron-builder build -p always",
     "pack:dir": "npm run build && npm run rebuild && electron-builder build --dir",
     "pack:justBuild": "build --dir",
     "precommit": "npm run lint",
@@ -25,7 +25,7 @@
   },
   "build": {
     "productName": "Ou Heng Technologies Co desktop-software",
-    "appId": "ouheng-desktop-software",
+    "appId": "hisight-desktop-software",
     "files": [
       "dist/",
       "node_modules/",
@@ -46,11 +46,11 @@
       ],
       "icon": "build/logo.png"
     },
-    "mac":{
-      "target":"dmg",
-      "icon": "build/logo.png"
-
-    },
+    "publish": [{
+      "provider": "github",
+      "owner": "Chengma999",
+      "repo": ""
+  }],
     "directories": {
       "buildResources": "app"
     }
@@ -101,6 +101,7 @@
     "antd": "^4.2.0",
     "axios": "^0.19.2",
     "babel-runtime": "6.20.0",
+    "electron-updater": "^4.3.5",
     "jsonwebtoken": "^8.5.1",
     "query-string": "^6.13.1",
     "socket.io-client": "^2.3.0"

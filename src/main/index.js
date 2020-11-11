@@ -8,6 +8,7 @@ import * as menu from './services/menu';
 import * as print from './services/print';
 import * as socketServices from './services/socket';
 import * as config from './configs/config';
+const { autoUpdater } = require('electron-updater');
 const io = require('socket.io-client');
 
 log.transports.file.level = 'info';
@@ -51,6 +52,10 @@ app.on('activate', () => {
 app.on('quit', () => {
   log.info('(main/index) app quit');
   log.info('(main/index) <<<<<<<<<<<<<<<<<<<');
+});
+
+app.on('ready', function () {
+  autoUpdater.checkForUpdatesAndNotify();
 });
 
 // Register to global, so renderer can access these with remote.getGlobal

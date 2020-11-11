@@ -1,22 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-  <style>
-    html, body {
-      height: 100%;
-    }
-    #root {
-      height: 100%;
-    }
-  </style>
-  <link rel="stylesheet" href="/index.css" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      #root {
+        height: 100%;
+      }
+    </style>
+    <link rel="stylesheet" href="/index.css" />
+  </head>
+  <body>
+    Current version: <span id="version">vX.Y.Z</span>
+    <div id="messages"></div>
+    <div id="root"></div>
+    <script src="/index.js"></script>
+    <script>
+      // Display the current version
+      let version = window.location.hash.substring(1);
+      console.log(window.location.hash);
+      document.getElementById('version').innerText = version;
 
-  <div id="root"></div>
-  <script src="/index.js"></script>
-
-</body>
+      // Listen for messages
+      const { ipcRenderer } = require('electron');
+      ipcRenderer.on('message', function (event, text) {
+        var container = document.getElementById('messages');
+        var message = document.createElement('div');
+        message.innerHTML = text;
+        container.appendChild(message);
+      });
+    </script>
+  </body>
 </html>

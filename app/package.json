@@ -1,6 +1,6 @@
 {
   "name": "hisight-desktop-software",
-  "version": "2.0.5",
+  "version": "2.0.7",
   "productName": "Boilerplate",
   "description": "Yet another boilerplate for dva.",
   "main": "dist/main.js",

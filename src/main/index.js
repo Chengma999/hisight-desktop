@@ -16,7 +16,7 @@ log.transports.file.level = 'info';
 log.info('(main/index) >>>>>>>>>>>>>>>>>>');
 log.info('(main/index) app start');
 log.info(`(main/index) log file at ${log.findLogPath()}`);
-
+log.info(`app version :----${app.getVersion()}`)
 if (is.dev()) {
   require('electron-debug')(); // eslint-disable-line global-require
 }
@@ -54,13 +54,13 @@ app.on('quit', () => {
   log.info('(main/index) <<<<<<<<<<<<<<<<<<<');
 });
 autoUpdater.on('checking-for-update', () => {
-  application.sendStatusToWindow('Checking for update...');
+  application.sendStatusToWindow('Zoeken naar update...');
 });
 autoUpdater.on('update-available', (info) => {
-  application.sendStatusToWindow('Update available.');
+  application.sendStatusToWindow('Update beschikbaar.');
 });
 autoUpdater.on('update-not-available', (info) => {
-  application.sendStatusToWindow('Update not available.');
+  // application.sendStatusToWindow('Update niet beschikbaar.');
 });
 autoUpdater.on('error', (err) => {
   application.sendStatusToWindow('Error in auto-updater. ' + err);
@@ -78,7 +78,7 @@ autoUpdater.on('download-progress', (progressObj) => {
   application.sendStatusToWindow(log_message);
 });
 autoUpdater.on('update-downloaded', (info) => {
-  application.sendStatusToWindow('Update downloaded');
+  application.sendStatusToWindow('Update gedownload, sluit de app, de update wordt vanzelf geinstalleerd.');
 });
 app.on('ready', function()  {
   autoUpdater.checkForUpdatesAndNotify();

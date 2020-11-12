@@ -15,16 +15,10 @@
     <link rel="stylesheet" href="/index.css" />
   </head>
   <body>
-    Current version: <span id="version">vX.Y.Z</span>
     <div id="messages"></div>
     <div id="root"></div>
     <script src="/index.js"></script>
     <script>
-      // Display the current version
-      let version = window.location.hash.substring(1);
-      console.log(window.location.hash);
-      document.getElementById('version').innerText = version;
-
       // Listen for messages
       const { ipcRenderer } = require('electron');
       ipcRenderer.on('message', function (event, text) {

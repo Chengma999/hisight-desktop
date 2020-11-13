@@ -1,32 +1,33 @@
-.content{
-  padding-right:10px;
-  font-family:Arial, Helvetica, sans-serif;
-  margin:8px 10px 8px 15px
+.content {
+  padding-right: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 8px 10px 8px 15px;
 }
 
-.rightAlign{
+.rightAlign {
   text-align: right;
 }
-.centerAlign{
+.centerAlign {
   text-align: center;
 }
-.dottedLine{
-
-  border-top:1px dotted black;
+.dottedLine {
+  border-top: 1px dotted black;
+}
+.dashedLine {
+  border-top: 1px dashed black;
 }
 
-.productText{
-  padding-bottom:5 px;
+.productText {
+  padding-bottom: 5 px;
   font-size: 18px;
   font-weight: 600;
-  word-break: break-word
+  word-break: break-word;
 }
-.orderInfo{
+.orderInfo {
   font-size: 18px;
   font-weight: 600;
 }
-.reservationRight{
-  text-align:right;
-  width:60%;
-
+.reservationRight {
+  text-align: right;
+  width: 60%;
 }

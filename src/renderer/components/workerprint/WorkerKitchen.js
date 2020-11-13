@@ -25,6 +25,7 @@ const {
   totalPrice,
   paymethod,
 } = data;
+cartProducts.sort((a, b) => a.sort_number - b.sort_number);
 const WorkerKitchen = () => {
   return (
     <div className={styles.content}>
@@ -40,7 +41,7 @@ const WorkerKitchen = () => {
                 style={{ borderStyle: 'solid', borderWidth: '3px' }}
                 className={styles.rightAlign}
               >
-                未付款
+                {restaurantType !== 'chinees' ? 'NOG TE BETALEN' : '未付款'}
               </td>
             )}
           </tr>
@@ -57,6 +58,10 @@ const WorkerKitchen = () => {
             <td className={styles.rightAlign}>{takeTime}</td>
           </tr>
           <tr>
+            <td>Naam</td>
+            <td className={styles.rightAlign}>{customerName}</td>
+          </tr>
+          <tr>
             <td>{restaurantType !== 'chinees' ? 'Totaal' : '总计:'}</td>
             <td className={styles.rightAlign}>{changeFormat(totalPrice)}</td>
           </tr>
@@ -68,20 +73,69 @@ const WorkerKitchen = () => {
           )}
         </tbody>
       </table>
-      <div className={styles.dottedLine}></div>
+      <div style={{ marginBottom: '10px' }} className={styles.dottedLine}></div>
 
-      {cartProducts.map((cartProduct) => {
-        const { quantity, title, chi_cha, option } = cartProduct;
+      {cartProducts.map((cartProduct, index) => {
+        const { quantity, title, chi_cha, option, sort_number } = cartProduct;
+        const needDottedLine =
+          index === cartProducts.length - 1
+            ? false
+            : sort_number !== cartProducts[index + 1].sort_number;
+
         return (
           <div className={styles.productText}>
-            <p>
-              {quantity} {restaurantType !== 'chinees' ? title : chi_cha}{' '}
-              {!option
-                ? ''
-                : restaurantType !== 'chinees'
-                ? option.title
-                : option.chi_cha}
-            </p>
+            <table
+              style={{
+                width: '100%',
+                wordWrap: 'break-all',
+                lineHeight: 1.2,
+                tableLayout: 'fixed',
+                borderCollapse: 'separate',
+                borderSpacing: '0 4px',
+              }}
+            >
+              <tbody>
+                <tr>
+                  <td style={{ width: '8%', verticalAlign: 'top' }}>
+                    {quantity}
+                  </td>
+                  <td style={{ wordBreak: 'break-word' }}>
+                    {restaurantType !== 'chinees' ? title : chi_cha}{' '}
+                    {!option
+                      ? ''
+                      : restaurantType !== 'chinees'
+                      ? option.title
+                      : option.chi_cha}
+                  </td>
+                  <td
+                    className={styles.rightAlign}
+                    style={{
+                      verticalAlign: 'top',
+                      width: '25%',
+                      fontWeight:"500"
+                    }}
+                  >
+                    {changeFormat(cartProduct.subTotal)}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            {
+              // <p>
+              //   {quantity} {restaurantType !== 'chinees' ? title : chi_cha}{' '}
+              //   {!option
+              //     ? ''
+              //     : restaurantType !== 'chinees'
+              //     ? option.title
+              //     : option.chi_cha}
+              // </p>
+            }
+            {needDottedLine ? (
+              <div
+                style={{margin:"10px 0",width:"100%" }}
+                className={styles.dashedLine}
+              ></div>
+            ) : null}
           </div>
         );
       })}

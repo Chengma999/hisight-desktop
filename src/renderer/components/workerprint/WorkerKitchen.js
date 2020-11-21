@@ -29,7 +29,7 @@ cartProducts.sort((a, b) => a.sort_number - b.sort_number);
 const WorkerKitchen = () => {
   return (
     <div className={styles.content}>
-      <table style={{ width: '100%' }}>
+      <table style={{ width: '100%', marginTop: '60px' }}>
         <tbody className={styles.orderInfo}>
           <tr>
             <td>{cus_orderId}</td>
@@ -96,26 +96,23 @@ const WorkerKitchen = () => {
             >
               <tbody>
                 <tr>
-                  <td style={{ width: '8%', verticalAlign: 'top' }}>
+                  <td style={{ width: '10%', verticalAlign: 'top' }}>
                     {quantity}
                   </td>
-                  <td style={{ wordBreak: 'break-word' }}>
+                  <td style={{ wordBreak: 'break-all' }}>
                     {restaurantType !== 'chinees' ? title : chi_cha}{' '}
-                    {!option
-                      ? ''
-                      : restaurantType !== 'chinees'
-                      ? option.title
-                      : option.chi_cha}
-                  </td>
-                  <td
-                    className={styles.rightAlign}
-                    style={{
-                      verticalAlign: 'top',
-                      width: '25%',
-                      fontWeight:"500"
-                    }}
-                  >
-                    {changeFormat(cartProduct.subTotal)}
+                    {!option ? (
+                      ''
+                    ) : restaurantType !== 'chinees' ? (
+                      <span style={{ fontSize: '16px', fontWeight: '500' }}>
+                        <br />
+                        {option.title}
+                      </span>
+                    ) : (
+                      <span style={{ fontSize: '16px', fontWeight: '500' }}>
+                        <br /> {option.chi_cha}
+                      </span>
+                    )}
                   </td>
                 </tr>
               </tbody>
@@ -132,7 +129,7 @@ const WorkerKitchen = () => {
             }
             {needDottedLine ? (
               <div
-                style={{margin:"10px 0",width:"100%" }}
+                style={{ margin: '10px 0', width: '100%' }}
                 className={styles.dashedLine}
               ></div>
             ) : null}

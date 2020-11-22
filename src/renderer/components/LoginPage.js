@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
-const { ipcRenderer } = require('electron');
+import { accountSet, accountGet } from '../services/print';
 import styles from '../css/login.css';
 
 const layout = {
@@ -20,86 +20,86 @@ const tailLayout = {
   },
 };
 
-ipcRenderer.on('message', function (event, text) {
+const LoginPage = (props) => {
+  const [form] = Form.useForm();
+  if (accountGet() instanceof Object) {
+    const { username, pass } = accountGet();
+    form.setFieldsValue({ username, password: pass });
+  }
 
- console.log(text)
-
-});
-
-class LoginPage extends React.Component {
-  onFinish = (values) => {
-    const { logIn } = this.props;
-    logIn(values);
+  const onFinish = (values) => {
+    const { username, password } = values;
+    const { logIn } = props;
+    logIn(values).then(accountSet(username, password));
   };
 
-  onFinishFailed = (errorInfo) => {
+  const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
 
-    this.props.form.validateFields((err, values) => {
-      const { logIn } = this.props;
-      if (!err) {
-        // console.log('Received values of form: ', values);
-        logIn(values);
-      }
-    });
-  };
+  //   props.form.validateFields((err, values) => {
+  //     const { logIn } = props;
+  //     if (!err) {
+  //       // console.log('Received values of form: ', values);
+  //       logIn(values);
+  //     }
+  //   });
+  // };
 
-  render() {
-    return (
-      <div className={styles.form}>
-        <h1>Inloggen </h1>
-        <Form
-          {...layout}
-          name="basic"
-          initialValues={{
-            remember: true,
-          }}
-          onFinish={this.onFinish}
-          onFinishFailed={this.onFinishFailed}
+  return (
+    <div className={styles.form}>
+      <h1>Inloggen </h1>
+      <Form
+        form={form}
+        {...layout}
+        name="basic"
+        initialValues={{
+          remember: true,
+        }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+      >
+        <Form.Item
+          label="Gebruikersnaam"
+          name="username"
+          rules={[
+            {
+              required: true,
+              message: 'Vul je gebruikersnaam in!',
+            },
+          ]}
         >
-          <Form.Item
-            label="Gebruikersnaam"
-            name="username"
-            rules={[
-              {
-                required: true,
-                message: 'Vul je gebruikersnaam in!',
-              },
-            ]}
-          >
-            <Input placeholder="gebruikersnaam" />
-          </Form.Item>
+          <Input placeholder="gebruikersnaam" />
+        </Form.Item>
 
-          <Form.Item
-            label="Wachtwoord"
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: 'Vul je wachtwoord in!',
-              },
-            ]}
-          >
-            <Input.Password placeholder="password" />
-          </Form.Item>
+        <Form.Item
+          label="Wachtwoord"
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: 'Vul je wachtwoord in!',
+            },
+          ]}
+        >
+          <Input.Password placeholder="password" />
+        </Form.Item>
 
-          <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
+        <Form.Item {...tailLayout} name="remember" valuePropName="checked">
+          <Checkbox>Remember me</Checkbox>
+        </Form.Item>
 
-          <Form.Item {...tailLayout}>
-            <Button type="primary" block htmlType="submit">
-              Login
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
-    );
-  }
-}
+        <Form.Item {...tailLayout}>
+          <Button type="primary" block htmlType="submit">
+            Login
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
+  );
+};
 
 export default LoginPage;

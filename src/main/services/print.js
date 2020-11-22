@@ -52,13 +52,13 @@ module.exports = {
     omzetBonWindow.on('closed', () => {
       omzetBonWindow = null;
     });
-    if (hide){
+    if (hide) {
       workerWindow.hide();
       workerKitchenWindow.hide();
       omzetBonWindow.hide();
     }
   },
-  print: async (order, isLooping,restaurantType) => {
+  print: async (order, isLooping, restaurantType) => {
     if (isPrinting && !isLooping) {
       printArr.push(order);
       return;
@@ -209,5 +209,14 @@ module.exports = {
   },
   printerGet: () => {
     return store.get('printer');
+  },
+  accountSet: (username, pass) => {
+    store.set('account', {
+      username,
+      pass,
+    });
+  },
+  accountGet: () => {
+    return store.get('account');
   },
 };

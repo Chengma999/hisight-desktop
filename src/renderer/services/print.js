@@ -8,3 +8,5 @@ export const printerSet =remote.getGlobal("services").print.printerSet
 export const printerGet =remote.getGlobal("services").print.printerGet
 export const printStatusSet =remote.getGlobal("services").print.printStatusSet
 export const printStatusGet =remote.getGlobal("services").print.printStatusGet
+export const accountGet =remote.getGlobal("services").print.accountGet
+export const accountSet =remote.getGlobal("services").print.accountSet

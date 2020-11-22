@@ -1,10 +1,9 @@
-import axios from "axios";
 const target = localStorage.getItem('target');
-import {instance} from '../utils/gegevens'
+import { instance } from '../utils/gegevens';
 const restaurant_id = localStorage.getItem('restaurant_id');
 
 export default {
-  namespace: "overige",
+  namespace: 'overige',
 
   state: {},
 
@@ -20,10 +19,10 @@ export default {
         const { data } = yield call(
           instance.post,
           `/api/overige/updateKvknr/${restaurant_id}`,
-          payload
+          payload,
         );
         yield put({
-          type: "basicinfo/kvknr/updateKvknr",
+          type: 'basicinfo/kvknr/updateKvknr',
           kvknr: data,
         });
         return data;
@@ -36,10 +35,10 @@ export default {
         const { data } = yield call(
           instance.post,
           `/api/overige/updateLiveKey/${restaurant_id}`,
-          payload
+          payload,
         );
         yield put({
-          type: "basicinfo/liveKey/updateLiveKey",
+          type: 'basicinfo/liveKey/updateLiveKey',
           liveKey: data,
         });
         return data;
@@ -52,10 +51,10 @@ export default {
         const { data } = yield call(
           instance.post,
           `/api/overige/updateFacebookUrl/${restaurant_id}`,
-          payload
+          payload,
         );
         yield put({
-          type: "basicinfo/facebookUrl/updateFacebookUrl",
+          type: 'basicinfo/facebookUrl/updateFacebookUrl',
           facebookUrl: data,
         });
         return data;
@@ -68,10 +67,10 @@ export default {
         const { data } = yield call(
           instance.post,
           `/api/overige/updateEmailLogoUrl/${restaurant_id}`,
-          payload
+          payload,
         );
         yield put({
-          type: "basicinfo/emailLogoUrl/updateEmailLogoUrl",
+          type: 'basicinfo/emailLogoUrl/updateEmailLogoUrl',
           emailLogoUrl: data,
         });
         return data;
@@ -84,10 +83,10 @@ export default {
         const { data } = yield call(
           instance.post,
           `/api/overige/updateText_1/${restaurant_id}`,
-          payload
+          payload,
         );
         yield put({
-          type: "basicinfo/text_1/updateText_1",
+          type: 'basicinfo/text_1/updateText_1',
           text_1: data,
         });
         return data;
@@ -100,10 +99,10 @@ export default {
         const { data } = yield call(
           instance.post,
           `/api/overige/updateText_2/${restaurant_id}`,
-          payload
+          payload,
         );
         yield put({
-          type: "basicinfo/text_2/updateText_2",
+          type: 'basicinfo/text_2/updateText_2',
           text_2: data,
         });
         console.log(data);
@@ -117,10 +116,10 @@ export default {
         const { data } = yield call(
           instance.post,
           `/api/overige/updateBezorgstatus/${restaurant_id}`,
-          payload
+          payload,
         );
         yield put({
-          type: "basicinfo/bezorgstatus/updateBezorgstatus",
+          type: 'basicinfo/bezorgstatus/updateBezorgstatus',
           bezorgstatus: data,
         });
         return data;
@@ -133,10 +132,10 @@ export default {
         const { data } = yield call(
           instance.post,
           `/api/overige/updatePaybycash/${restaurant_id}`,
-          payload
+          payload,
         );
         yield put({
-          type: "basicinfo/paybycash/updatePaybycash",
+          type: 'basicinfo/paybycash/updatePaybycash',
           paybycash: data,
         });
         return data;
@@ -149,10 +148,10 @@ export default {
         const { data } = yield call(
           instance.post,
           `/api/overige/updateBezorgtijden/${restaurant_id}`,
-          payload
+          payload,
         );
         yield put({
-          type: "basicinfo/bezorgtijden/updateBezorgtijden",
+          type: 'basicinfo/bezorgtijden/updateBezorgtijden',
           bezorgtijden: data,
         });
         return data;
@@ -165,11 +164,27 @@ export default {
         const { data } = yield call(
           instance.post,
           `/api/overige/updateCloseday/${restaurant_id}`,
-          payload
+          payload,
         );
         yield put({
-          type: "basicinfo/closeday/updateCloseday",
+          type: 'basicinfo/closeday/updateCloseday',
           closeday: data,
+        });
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    *updateBackgroundImages({ payload }, { call, put, select }) {
+      try {
+        const { data } = yield call(
+          instance.post,
+          `/api/overige/updateBackgroundImages/${restaurant_id}`,
+          payload,
+        );
+        yield put({
+          type: 'basicinfo/backgroundImages/updateBackgroundImages',
+          backgroundImages: data,
         });
         return data;
       } catch (err) {
@@ -181,10 +196,10 @@ export default {
         const { data } = yield call(
           instance.post,
           `/api/overige/addBezorggebied/${restaurant_id}`,
-          payload
+          payload,
         );
         yield put({
-          type: "basicinfo/bezorggebied/updateBezorggebied",
+          type: 'basicinfo/bezorggebied/updateBezorggebied',
           bezorggebied: data,
         });
         return data;
@@ -197,10 +212,10 @@ export default {
         const { data } = yield call(
           instance.post,
           `/api/overige/updateBezorggebied/${restaurant_id}`,
-          payload
+          payload,
         );
         yield put({
-          type: "basicinfo/bezorggebied/updateBezorggebied",
+          type: 'basicinfo/bezorggebied/updateBezorggebied',
           bezorggebied: data,
         });
         return data;
@@ -213,10 +228,10 @@ export default {
         const { data } = yield call(
           instance.post,
           `/api/overige/deleteBezorggebied/${restaurant_id}`,
-          payload
+          payload,
         );
         yield put({
-          type: "basicinfo/bezorggebied/updateBezorggebied",
+          type: 'basicinfo/bezorggebied/updateBezorggebied',
           bezorggebied: data,
         });
         return data;
@@ -229,11 +244,11 @@ export default {
         const { data } = yield call(
           instance.post,
           `/api/overige/addOpeningstijden/${restaurant_id}`,
-          payload
+          payload,
         );
         console.log(data);
         yield put({
-          type: "basicinfo/openingstijden/updateOpeningstijden",
+          type: 'basicinfo/openingstijden/updateOpeningstijden',
           openingstijden: data,
         });
         return data;
@@ -246,10 +261,10 @@ export default {
         const { data } = yield call(
           instance.post,
           `/api/overige/updateOpeningstijden/${restaurant_id}`,
-          payload
+          payload,
         );
         yield put({
-          type: "basicinfo/openingstijden/updateOpeningstijden",
+          type: 'basicinfo/openingstijden/updateOpeningstijden',
           openingstijden: data,
         });
         return data;
@@ -262,11 +277,128 @@ export default {
         const { data } = yield call(
           instance.post,
           `/api/overige/deleteOpeningstijden/${restaurant_id}`,
-          payload
+          payload,
         );
         yield put({
-          type: "basicinfo/openingstijden/updateOpeningstijden",
+          type: 'basicinfo/openingstijden/updateOpeningstijden',
           openingstijden: data,
+        });
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    *addCarouselImage({ payload }, { call, put, select }) {
+      try {
+        const { data } = yield call(
+          instance.post,
+          `/api/overige/addCarouselImage/${restaurant_id}`,
+          payload,
+        );
+        console.log(data);
+        yield put({
+          type: 'basicinfo/carouselImages/updateCarouselImage',
+          carouselImages: data,
+        });
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    *updateCarouselImage({ payload }, { call, put, select }) {
+      try {
+        const { data } = yield call(
+          instance.post,
+          `/api/overige/updateCarouselImage/${restaurant_id}`,
+          payload,
+        );
+        yield put({
+          type: 'basicinfo/carouselImages/updateCarouselImage',
+          carouselImages: data,
+        });
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    *deleteCarouselImage({ payload }, { call, put, select }) {
+      try {
+        const { data } = yield call(
+          instance.post,
+          `/api/overige/deleteCarouselImage/${restaurant_id}`,
+          payload,
+        );
+        yield put({
+          type: 'basicinfo/carouselImages/updateCarouselImage',
+          carouselImages: data,
+        });
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    *addMenulijst({ payload }, { call, put, select }) {
+      try {
+        const { data } = yield call(
+          instance.post,
+          `/api/overige/addMenulijst/${restaurant_id}`,
+          payload,
+        );
+        console.log(data);
+        yield put({
+          type: 'basicinfo/menulijsts/updateMenulijst',
+          menulijsts: data,
+        });
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    *updateMenulijst({ payload }, { call, put, select }) {
+      try {
+        const { data } = yield call(
+          instance.post,
+          `/api/overige/updateMenulijst/${restaurant_id}`,
+          payload,
+        );
+        yield put({
+          type: 'basicinfo/menulijsts/updateMenulijst',
+          menulijsts: data,
+        });
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    *deleteMenulijst({ payload }, { call, put, select }) {
+      try {
+        const { data } = yield call(
+          instance.post,
+          `/api/overige/deleteMenulijst/${restaurant_id}`,
+          payload,
+        );
+        yield put({
+          type: 'basicinfo/menulijsts/updateMenulijst',
+          menulijsts: data,
+        });
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    *updatePrintMethod({ payload }, { call, put, select }) {
+      try {
+        const { data } = yield call(
+          instance.post,
+          `/api/overige/updatePrintMethod/${restaurant_id}`,
+          payload,
+        );
+        yield put({
+          type: 'basicinfo/printMethod/updatePrintMehod',
+          printMethod: data,
         });
         return data;
       } catch (err) {

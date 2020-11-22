@@ -1,19 +1,25 @@
-import React from "react";
-import { connect } from "dva";
-import { Table } from "antd";
-import AdminPage from "../AdminPage";
-import BezorgstatusForm from "./BezorgstatusForm";
-import BezorgtijdenForm from "./BezorgtijdenForm";
-import PaybycashForm from "./PaybycashForm";
-import ClosedayForm from "./ClosedayForm";
-import AfhaaltextForm from "./AfhaaltextForm";
-import PrintStatusForm from './PrintStatusForm'
-import PrinterForm from './PrinterForm'
-import BezorggebiedAddForm from "./bezorggebied/BezorggebiedAddForm";
-import BezorggebiedTable from "./bezorggebied/BezorggebiedTable";
-import OpeningstijdenAddForm from "./openingstijden/OpeningstijdenAddForm";
-import OpeningstijdenTable from "./openingstijden/OpeningstijdenTable";
-import styles from "../admin.less";
+import React from 'react';
+import { connect } from 'dva';
+import { Table } from 'antd';
+import AdminPage from '../AdminPage';
+import BezorgstatusForm from './BezorgstatusForm';
+import BezorgtijdenForm from './BezorgtijdenForm';
+import PaybycashForm from './PaybycashForm';
+import ClosedayForm from './ClosedayForm';
+import AfhaaltextForm from './AfhaaltextForm';
+import PrintStatusForm from './PrintStatusForm';
+import PrinterForm from './PrinterForm';
+import BezorggebiedAddForm from './bezorggebied/BezorggebiedAddForm';
+import BezorggebiedTable from './bezorggebied/BezorggebiedTable';
+import OpeningstijdenAddForm from './openingstijden/OpeningstijdenAddForm';
+import OpeningstijdenTable from './openingstijden/OpeningstijdenTable';
+import BackgroundImagesForm from './BackgroundImagesForm';
+import CarouselAddForm from './carousel/CarouselAddForm';
+import CarouselTable from './carousel/CarouselTable';
+import MenulijstAddForm from './menulijst/MenulijstAddForm';
+import MenulijstTable from './menulijst/MenulijstTable';
+import PrintMethodForm from './PrintMethodForm';
+import styles from '../admin.less';
 import {
   updateKvknr,
   updateLiveKey,
@@ -31,28 +37,33 @@ import {
   deleteOpeningstijden,
   updateBezorgtijden,
   updateCloseday,
-} from "../../../actions";
+  updateBackgroundImages,
+  addCarouselImage,
+  updateCarouselImage,
+  deleteCarouselImage,
+  updatePrintMethod,
+  addMenulijst,
+  updateMenulijst,
+  deleteMenulijst,
+} from '../../../actions';
 
 const columns = [
   {
-    title: "KEYS",
-    dataIndex: "keys",
+    title: 'KEYS',
+    dataIndex: 'keys',
     width: 50,
-    render: (text) => <div style={{ fontWeight: "600" }}>{text}</div>,
+    render: (text) => <div style={{ fontWeight: '600' }}>{text}</div>,
   },
   {
-    title: "VALUES",
-    dataIndex: "values",
+    title: 'VALUES',
+    dataIndex: 'values',
     width: 150,
   },
 ];
 
 function Overige(props) {
   const {
-    bezorgkosten,
-    bezorgstatus,
     factors,
-    overige,
     basicinfo,
     updateKvknr,
     updateLiveKey,
@@ -70,13 +81,19 @@ function Overige(props) {
     deleteOpeningstijden,
     updateBezorgtijden,
     updateCloseday,
+    updateBackgroundImages,
+    addCarouselImage,
+    updateCarouselImage,
+    deleteCarouselImage,
+    updatePrintMethod,
+    addMenulijst,
+    updateMenulijst,
+    deleteMenulijst,
   } = props;
-  const kosten = bezorgkosten.fee === undefined ? "" : bezorgkosten.fee;
-  const status = bezorgstatus.status === undefined ? "" : bezorgstatus.status;
   const data = [
     {
-      key: "bezorgstatus",
-      keys: "Bezorging aan en uit",
+      key: 'bezorgstatus',
+      keys: 'Bezorging aan en uit',
       values: (
         <BezorgstatusForm
           bezorgstatus={basicinfo.bezorgstatus}
@@ -85,8 +102,8 @@ function Overige(props) {
       ),
     },
     {
-      key: "paybycash",
-      keys: "Betalen met contant en pin",
+      key: 'paybycash',
+      keys: 'Betalen met contant en pin',
       values: (
         <PaybycashForm
           paybycash={basicinfo.paybycash}
@@ -96,8 +113,8 @@ function Overige(props) {
     },
 
     {
-      key: "bezorgtijden",
-      keys: "Bezorgtijden",
+      key: 'bezorgtijden',
+      keys: 'Bezorgtijden',
       values: (
         <BezorgtijdenForm
           bezorgtijden={basicinfo.bezorgtijden}
@@ -106,8 +123,8 @@ function Overige(props) {
       ),
     },
     {
-      key: "gesloten dagen",
-      keys: "Sluitdag(en)",
+      key: 'gesloten dagen',
+      keys: 'Sluitdag(en)',
       values: (
         <ClosedayForm
           closeday={basicinfo.closeday}
@@ -116,36 +133,46 @@ function Overige(props) {
       ),
     },
     {
-      key: "text_1",
-      keys: "tekst 1",
+      key: 'text_1',
+      keys: 'tekst 1',
       values: (
         <AfhaaltextForm text={basicinfo.text_1} updateText={updateText_1} />
       ),
     },
     {
-      key: "text_2",
-      keys: "tekst 2",
+      key: 'text_2',
+      keys: 'tekst 2',
       values: (
         <AfhaaltextForm text={basicinfo.text_2} updateText={updateText_2} />
       ),
     },
     {
-      key: "kvknr",
-      keys: "KVK nummer",
+      key: 'background_imgs',
+      keys: 'Background Images',
+      values: (
+        <BackgroundImagesForm
+          backgroundImages={basicinfo.backgroundImages}
+          updateBackgroundImages={updateBackgroundImages}
+        />
+      ),
+    },
+    {
+      key: 'kvknr',
+      keys: 'KVK nummer',
       values: (
         <AfhaaltextForm text={basicinfo.kvknr} updateText={updateKvknr} />
       ),
     },
     {
-      key: "liveKey",
-      keys: "Mollie Live Key",
+      key: 'liveKey',
+      keys: 'Mollie Live Key',
       values: (
         <AfhaaltextForm text={basicinfo.liveKey} updateText={updateLiveKey} />
       ),
     },
     {
-      key: "facebookUrl",
-      keys: "Facebook Url",
+      key: 'facebookUrl',
+      keys: 'Facebook Url',
       values: (
         <AfhaaltextForm
           text={basicinfo.facebookUrl}
@@ -154,8 +181,8 @@ function Overige(props) {
       ),
     },
     {
-      key: "emailLogoUrl",
-      keys: "Email Logo Url",
+      key: 'emailLogoUrl',
+      keys: 'Email Logo Url',
       values: (
         <AfhaaltextForm
           text={basicinfo.emailLogoUrl}
@@ -164,18 +191,25 @@ function Overige(props) {
       ),
     },
     {
-      key: "autoprint",
-      keys: "Auto Print" ,
-      values: <PrintStatusForm factors={factors}/>,
-
+      key: 'printMethod',
+      keys: 'Raw Print (zonder Software)',
+      values: (
+        <PrintMethodForm
+          printMethod={basicinfo.printMethod}
+          updatePrintMethod={updatePrintMethod}
+        />
+      ),
     },
-      {
-      key: "printerconfig",
-      keys: "Printer Config" ,
-      values: <PrinterForm factors={factors}/>,
-
-    }
-
+    {
+      key: 'autoprint',
+      keys: 'Auto Print',
+      values: <PrintStatusForm factors={factors} />,
+    },
+    {
+      key: 'printerconfig',
+      keys: 'Printer Config',
+      values: <PrinterForm factors={factors} />,
+    },
   ];
   return (
     <div>
@@ -205,6 +239,24 @@ function Overige(props) {
         openingstijden={basicinfo.openingstijden}
         updateOpeningstijden={updateOpeningstijden}
         deleteOpeningstijden={deleteOpeningstijden}
+      />
+      <CarouselAddForm
+        carouselImages={basicinfo.carouselImages}
+        addCarouselImage={addCarouselImage}
+      />
+      <CarouselTable
+        carouselImages={basicinfo.carouselImages}
+        updateCarouselImage={updateCarouselImage}
+        deleteCarouselImage={deleteCarouselImage}
+      />
+      <MenulijstAddForm
+        menulijsts={basicinfo.menulijsts}
+        addMenulijst={addMenulijst}
+      />
+      <MenulijstTable
+        menulijsts={basicinfo.menulijsts}
+        updateMenulijst={updateMenulijst}
+        deleteMenulijst={deleteMenulijst}
       />
     </div>
   );
@@ -241,4 +293,12 @@ export default connect(mapStateToProps, {
   deleteOpeningstijden,
   updateBezorgtijden,
   updateCloseday,
+  updateBackgroundImages,
+  addCarouselImage,
+  updateCarouselImage,
+  deleteCarouselImage,
+  updatePrintMethod,
+  addMenulijst,
+  updateMenulijst,
+  deleteMenulijst,
 })(Overige);

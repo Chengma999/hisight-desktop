@@ -71,7 +71,14 @@ class Order extends Component {
     let totalAfhaalRevenue = 0;
     let totalBezorgenRevenue = 0;
     const { visible, order, chosenDate, current } = this.state;
-    const { loading, admincrud,basicinfo, printOrder, smsSend, listenOrder } = this.props;
+    const {
+      loading,
+      admincrud,
+      basicinfo,
+      printOrder,
+      smsSend,
+      listenOrder,
+    } = this.props;
     //get all paid orders from DB
     const allPaidOrders =
       loading.effects['admincrud/fetchOrders'] === false
@@ -110,8 +117,23 @@ class Order extends Component {
 
       const header = (
         <Row>
-          <Col span={6}>
+          <Col span={5}>
             <b>{order.cus_orderId}</b>
+          </Col>
+          <Col span={5}>
+            {order.paymethod !== 'cash' ? null : (
+              <div
+                style={{
+                  marginRight: '8px',
+                  borderStyle: 'solid',
+                  textalign: 'center',
+                  fontWeight: '600',
+                  wordBreak: 'break-word',
+                }}
+              >
+                NOG TE BETALEN
+              </div>
+            )}
           </Col>
           <Col span={6}>
             <span onClick={(e) => e.stopPropagation()}>
@@ -124,10 +146,10 @@ class Order extends Component {
               {order.orderType} {order.takeTime}
             </b>
           </Col>
-          <Col span={6}>
+          <Col span={4}>
             <b>{order.customerName}</b>
           </Col>
-          <Col span={6}>
+          <Col span={4}>
             <b>{convertInEuro(order.totalPrice)}</b>
           </Col>
         </Row>
@@ -251,7 +273,7 @@ class Order extends Component {
         <div className={styles.totalRevenue}>
           <Row>
             <Col sm={8} xs={24}>
-              <Title>AFhaal:{convertInEuro(totalAfhaalRevenue)}</Title>
+              <Title>Afhalen:{convertInEuro(totalAfhaalRevenue)}</Title>
             </Col>
             <Col sm={8} xs={24}>
               <Title>Bezorgen:{convertInEuro(totalBezorgenRevenue)}</Title>
